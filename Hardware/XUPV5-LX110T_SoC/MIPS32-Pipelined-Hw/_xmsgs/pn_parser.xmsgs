@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated   -->
+<!--     by the Xilinx ISE software.  Any direct editing or        -->
+<!--     changes made to this file may result in unpredictable     -->
+<!--     behavior or data corruption.  It is strongly advised that -->
+<!--     users do not edit the contents of this file.              -->
+<!--                                                               -->
+<!-- Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.    -->
+
+<messages>
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/BRAM/BRAM_592KB_Wrapper.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Clocks/PLL_100MHz_to_50MHz_100MHz.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Common/FIFO_Clear.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Common/FIFO_NoFull_Count.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Common/Mux2.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Common/Mux4.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Common/SRAM.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/I2C/I2C_Clock.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/I2C/I2C_Controller.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/I2C/I2C_Phy.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/LCD/LCD.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/LCD/lcd_ctrl.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/LED/LED.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/ALU.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/ALU.v</arg>&quot; Line <arg fmt="%d" index="2">34</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MIPS_Parameters.v&apos; in file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/ALU.v&quot; line 34
+</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Add.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/CPZero.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/CPZero.v</arg>&quot; Line <arg fmt="%d" index="2">82</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MIPS_Parameters.v&apos; in file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/CPZero.v&quot; line 82
+</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Compare.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Control.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Control.v</arg>&quot; Line <arg fmt="%d" index="2">70</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MIPS_Parameters.v&apos; in file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Control.v&quot; line 70
+</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/EXMEM_Stage.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Hazard_Detection.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/IDEX_Stage.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/IFID_Stage.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MEMWB_Stage.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MemControl.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MemControl.v</arg>&quot; Line <arg fmt="%d" index="2">54</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MIPS_Parameters.v&apos; in file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MemControl.v&quot; line 54
+</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Processor.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Processor.v</arg>&quot; Line <arg fmt="%d" index="2">40</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/MIPS_Parameters.v&apos; in file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Processor.v&quot; line 40
+</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Register.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/RegisterFile.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/TrapDetect.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Piezo/Piezo.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Switches/Switch_Filter.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Switches/Switches.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/Top.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/UART/uart-min.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/UART/uart_bootloader_v2.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/UART/uart_clock.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/UART/uart_rx.v&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/UART/uart_tx.v&quot; into library work</arg>
+</msg>
+
+</messages>
+
