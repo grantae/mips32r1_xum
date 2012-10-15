@@ -93,3 +93,4 @@ module uart_rx(
     assign data_ready = (uart_tick_16x & next_bit & (state==STOP));
     
 endmodule
+

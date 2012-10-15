@@ -114,7 +114,7 @@ module IDEX_Stage(
     
     reg [16:0] EX_SignExtImm_pre;
     reg EX_RegDst;
-    assign EX_LinkRegDst = (EX_Link) ? 2'b10 : ((EX_RegDst) ? 2'b01 : 2'b00);	
+    assign EX_LinkRegDst = (EX_Link) ? 2'b10 : ((EX_RegDst) ? 2'b01 : 2'b00);   
     assign EX_Rd = EX_SignExtImm[15:11];
     assign EX_Shamt = EX_SignExtImm[10:6];
     assign EX_SignExtImm = (EX_SignExtImm_pre[16]) ? {15'h7fff, EX_SignExtImm_pre[16:0]} : {15'h0000, EX_SignExtImm_pre[16:0]};
@@ -156,3 +156,4 @@ module IDEX_Stage(
     end
 
 endmodule
+

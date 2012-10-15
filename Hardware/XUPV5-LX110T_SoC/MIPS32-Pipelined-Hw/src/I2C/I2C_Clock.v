@@ -52,3 +52,4 @@ module I2C_Clock(
     assign scl_tick_90 = tick_4x & ((state == 2'd0) || (state == 2'd2));
 
 endmodule
+

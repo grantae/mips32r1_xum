@@ -126,3 +126,4 @@ module uart_min(
     );
     
 endmodule
+

@@ -16,9 +16,9 @@
  *   file connects all processor, memory, clocks, and I/O devices together.
  *   All inputs and outputs correspond to actual FPGA pins.
  */
- module Top(
-	input  clock_100MHz,
-	input  reset_n,
+module Top(
+    input  clock_100MHz,
+    input  reset_n,
     // I/O
     input  [7:0] Switch,
     output [14:0] LED,
@@ -28,7 +28,7 @@
     inout  i2c_scl,
     inout  i2c_sda,
     output Piezo
-	);
+    );
     
     
     // Clock signals
@@ -110,24 +110,24 @@
         .LOCKED_OUT   (PLL_Locked)
     );
 
-	// MIPS-32 Core
-	Processor MIPS32 (
-		.clock            (clock),
-		.reset            ((reset | UART_BootResetCPU)),
+    // MIPS-32 Core
+    Processor MIPS32 (
+        .clock            (clock),
+        .reset            ((reset | UART_BootResetCPU)),
         .Interrupts       (MIPS32_Interrupts),
         .NMI              (MIPS32_NMI),
-		.DataMem_In       (MIPS32_DataMem_In),
-		.DataMem_Ready    (MIPS32_DataMem_Ready),
-		.DataMem_Read     (MIPS32_DataMem_Read),
-		.DataMem_Write    (MIPS32_DataMem_WE),
-		.DataMem_Address  (MIPS32_DataMem_Address),
-		.DataMem_Out      (MIPS32_DataMem_Out),
-		.InstMem_In       (MIPS32_InstMem_In),
-		.InstMem_Address  (MIPS32_InstMem_Address),
-		.InstMem_Ready    (BRAM_ReadyA),
-		.InstMem_Read     (MIPS32_InstMem_Read),
+        .DataMem_In       (MIPS32_DataMem_In),
+        .DataMem_Ready    (MIPS32_DataMem_Ready),
+        .DataMem_Read     (MIPS32_DataMem_Read),
+        .DataMem_Write    (MIPS32_DataMem_WE),
+        .DataMem_Address  (MIPS32_DataMem_Address),
+        .DataMem_Out      (MIPS32_DataMem_Out),
+        .InstMem_In       (MIPS32_InstMem_In),
+        .InstMem_Address  (MIPS32_InstMem_Address),
+        .InstMem_Ready    (BRAM_ReadyA),
+        .InstMem_Read     (MIPS32_InstMem_Read),
         .IP               (MIPS32_IP)
-	);
+    );
 
     // On-Chip Block RAM
     BRAM_592KB_Wrapper Memory (
@@ -304,3 +304,4 @@
     assign Switches_RE = (MIPS32_DataMem_Address[29:26] == 4'b1101) ? MIPS32_DataMem_Read : 0;
     
 endmodule
+

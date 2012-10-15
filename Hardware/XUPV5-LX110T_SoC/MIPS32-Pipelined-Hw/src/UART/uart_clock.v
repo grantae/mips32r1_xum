@@ -54,3 +54,4 @@ module uart_clock(
     assign uart_tick = (uart_tick_16x==1'b1 && (uart_16x_count == 4'b1111));
     
 endmodule
+

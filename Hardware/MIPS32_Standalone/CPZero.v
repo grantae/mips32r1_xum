@@ -21,37 +21,37 @@
  *   is MIPS-32-compliant.
  */
 module CPZero(
-	input  clock,
-	//-- CP0 Functionality --//
+    input  clock,
+    //-- CP0 Functionality --//
     input  Mfc0,                    // CPU instruction is Mfc0
-	input  Mtc0,                    // CPU instruction is Mtc0
+    input  Mtc0,                    // CPU instruction is Mtc0
     input  IF_Stall,
     input  ID_Stall,                // Commits are not made during stalls
-	input  COP1,                    // Instruction for Coprocessor 1
-	input  COP2,                    // Instruction for Coprocessor 2
-	input  COP3,                    // Instruction for Coprocessor 3
+    input  COP1,                    // Instruction for Coprocessor 1
+    input  COP2,                    // Instruction for Coprocessor 2
+    input  COP3,                    // Instruction for Coprocessor 3
     input  ERET,                    // Instruction is ERET (Exception Return)
-	input  [4:0] Rd,                // Specifies Cp0 register
-	input  [2:0] Sel,               // Specifies Cp0 'select'
-	input  [31:0] Reg_In,           // Data from GP register to replace CP0 register
+    input  [4:0] Rd,                // Specifies Cp0 register
+    input  [2:0] Sel,               // Specifies Cp0 'select'
+    input  [31:0] Reg_In,           // Data from GP register to replace CP0 register
     output reg [31:0] Reg_Out,      // Data from CP0 register for GP register
     output KernelMode,              // Kernel mode indicator for pipeline transit
     output ReverseEndian,           // Reverse Endian memory indicator for User Mode
-	//-- Hw Interrupts --//
-	input  [4:0] Int,               // Five hardware interrupts external to the processor
-	//-- Exceptions --//
-	input  reset,                   // Cold Reset (EXC_Reset)
+    //-- Hw Interrupts --//
+    input  [4:0] Int,               // Five hardware interrupts external to the processor
+    //-- Exceptions --//
+    input  reset,                   // Cold Reset (EXC_Reset)
 //  input  EXC_SReset,              // Soft Reset (not implemented)
-	input  EXC_NMI,                 // Non-Maskable Interrupt
+    input  EXC_NMI,                 // Non-Maskable Interrupt
     input  EXC_AdIF,                // Address Error Exception from i-fetch (mapped to AdEL)
-	input  EXC_AdEL,                // Address Error Exception from data memory load
-	input  EXC_AdES,                // Address Error Exception from data memory store
-	input  EXC_Ov,                  // Integer Overflow Exception
-	input  EXC_Tr,                  // Trap Exception
-	input  EXC_Sys,                 // System Call Exception
-	input  EXC_Bp,                  // Breakpoint Exception
-	input  EXC_RI,                  // Reserved Instruction Exception
-	//-- Exception Data --//
+    input  EXC_AdEL,                // Address Error Exception from data memory load
+    input  EXC_AdES,                // Address Error Exception from data memory store
+    input  EXC_Ov,                  // Integer Overflow Exception
+    input  EXC_Tr,                  // Trap Exception
+    input  EXC_Sys,                 // System Call Exception
+    input  EXC_Bp,                  // Breakpoint Exception
+    input  EXC_RI,                  // Reserved Instruction Exception
+    //-- Exception Data --//
     input  [31:0] ID_RestartPC,     // PC for exception, whether PC of instruction or of branch (PC-4) if BDS
     input  [31:0] EX_RestartPC,     // Same as 'ID_RestartPC' but in EX stage
     input  [31:0] M_RestartPC,      // Same as 'ID_RestartPC' but in MEM stage
@@ -60,7 +60,7 @@ module CPZero(
     input  ID_IsBD,                 // Indicator of ID exception being a branch delay slot instruction
     input  EX_IsBD,                 // Indicator of EX exception being a branch delay slot instruction
     input  M_IsBD,                  // Indicator of M  exception being a branch delay slot instruction
-	input  [31:0] BadAddr_M,        // Bad 'Virtual' Address for exceptions AdEL, AdES in MEM stage
+    input  [31:0] BadAddr_M,        // Bad 'Virtual' Address for exceptions AdEL, AdES in MEM stage
     input  [31:0] BadAddr_IF,       // Bad 'Virtual' Address for AdIF (i.e. AdEL) in IF stage
     input  ID_CanErr,               // Cumulative signal, i.e. (ID_ID_CanErr | ID_EX_CanErr | ID_M_CanErr)
     input  EX_CanErr,               // Cumulative signal, i.e. (EX_EX_CanErr | EX_M_CanErr)
@@ -77,9 +77,9 @@ module CPZero(
     output Exc_PC_Sel,              // Mux selector for exception PC override
     output reg [31:0] Exc_PC_Out,   // Address for PC at the beginning of an exception
     output [7:0] IP                 // Pending Interrupts from Cause register (for diagnostic purposes)
-	);
+    );
 
-	`include "MIPS_Parameters.v"
+    `include "MIPS_Parameters.v"
 
 
     /***
@@ -118,18 +118,18 @@ module CPZero(
        until the interrupts has been processed. 
 
      Exception Name             Short Name          Pipeline Stage
-	   Address Error Ex         (AdEL, AdES)        MEM, IF
-	   Integer Overflow Ex      (Ov)                EX
-	   Trap Ex                  (Tr)                MEM
-	   Syscall                  (Sys)               ID
-	   Breakpoint               (Bp)                ID
-	   Reserved Instruction     (RI)                ID
-	   Coprocessor Unusable     (CpU)               ID
-	   Interrupt                (Int)               ID
-	   Reset, SReset, NMI                           ID
+       Address Error Ex         (AdEL, AdES)        MEM, IF
+       Integer Overflow Ex      (Ov)                EX
+       Trap Ex                  (Tr)                MEM
+       Syscall                  (Sys)               ID
+       Breakpoint               (Bp)                ID
+       Reserved Instruction     (RI)                ID
+       Coprocessor Unusable     (CpU)               ID
+       Interrupt                (Int)               ID
+       Reset, SReset, NMI                           ID
     ***/
-	
-	
+    
+    
     // Exceptions Generated Internally
     wire EXC_CpU;
 
@@ -178,9 +178,9 @@ module CPZero(
     reg  Status_RE;         // Reverse Endian Memory for User Mode
     wire Status_MX = 0;
     wire Status_PX = 0;
-    reg  Status_BEV;		// Exception vector locations (0->Norm, 1->Bootstrap)
+    reg  Status_BEV;        // Exception vector locations (0->Norm, 1->Bootstrap)
     wire Status_TS = 0;
-    wire Status_SR = 0;	    // Soft reset not implemented
+    wire Status_SR = 0;     // Soft reset not implemented
     reg  Status_NMI;        // Non-Maskable Interrupt
     wire Status_RES = 0;
     wire [1:0] Status_Custom = 2'b00;
@@ -188,9 +188,9 @@ module CPZero(
     wire Status_KX = 0;
     wire Status_SX = 0;
     wire Status_UX = 0;
-    reg  Status_UM;		    // Base operating mode (0->Kernel, 1->User)
+    reg  Status_UM;         // Base operating mode (0->Kernel, 1->User)
     wire Status_R0 = 0;
-    reg  Status_ERL;		// Error Level     (0->Normal, 1->Error (reset, NMI))
+    reg  Status_ERL;        // Error Level     (0->Normal, 1->Error (reset, NMI))
     reg  Status_EXL;        // Exception level (0->Normal, 1->Exception)
     reg  Status_IE;         // Interrupt Enable
     wire [31:0] Status = {Status_CU_321, Status_CU_0, Status_RP, Status_FR, Status_RE, Status_MX, 
@@ -199,11 +199,11 @@ module CPZero(
                                  Status_UM, Status_R0, Status_ERL, Status_EXL, Status_IE};
 
     // Cause Register (Register 13, Select 0)
-    reg  Cause_BD;					// Exception occured in Branch Delay
-    reg  [1:0] Cause_CE;			// CP number for CP Unusable exception
-    reg  Cause_IV;					// Indicator of general IV (0->0x180) or special IV (1->0x200)
+    reg  Cause_BD;                  // Exception occured in Branch Delay
+    reg  [1:0] Cause_CE;            // CP number for CP Unusable exception
+    reg  Cause_IV;                  // Indicator of general IV (0->0x180) or special IV (1->0x200)
     wire Cause_WP = 0;
-    reg  [7:0] Cause_IP;			// Pending HW Interrupt indicator.
+    reg  [7:0] Cause_IP;            // Pending HW Interrupt indicator.
     wire Cause_ExcCode4 = 0;        // Can be made into a register when this bit is needed.
     reg  [3:0] Cause_ExcCode30;     // Description of Exception (only lower 4 bits currently used; see above)
     wire [31:0] Cause  = {Cause_BD, 1'b0, Cause_CE, 4'b0000, Cause_IV, Cause_WP,
@@ -222,7 +222,7 @@ module CPZero(
     // Configuration Register (Register 16, Select 0)
     wire Config_M = 1;
     wire [14:0] Config_Impl = 15'b000_0000_0000_0000;
-    wire Config_BE = Big_Endian;	// From parameters file
+    wire Config_BE = Big_Endian;    // From parameters file
     wire [1:0] Config_AT = 2'b00;
     wire [2:0] Config_AR = 3'b000;
     wire [2:0] Config_MT = 3'b000;
@@ -241,8 +241,8 @@ module CPZero(
     wire [2:0] Config1_DA = 3'b000;
     wire Config1_C2 = 0;
     wire Config1_MD = 0;
-    wire Config1_PC = 0;	// XXX Performance Counters
-    wire Config1_WR = 0;	// XXX Watch Registers
+    wire Config1_PC = 0;    // XXX Performance Counters
+    wire Config1_WR = 0;    // XXX Watch Registers
     wire Config1_CA = 0;
     wire Config1_EP = 0;
     wire Config1_FP = 0;
@@ -524,6 +524,6 @@ module CPZero(
         else if (EXC_Int)  Cause_ExcCode_bits <= 4'h0;     // 00000     // OK that NMI writes this.
         else               Cause_ExcCode_bits <= 4'bxxxx;
     end
-
-    
+ 
 endmodule
+

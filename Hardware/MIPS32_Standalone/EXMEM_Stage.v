@@ -16,47 +16,47 @@
  *   The Pipeline Register to bridge the Execute and Memory stages.
  */
 module EXMEM_Stage(
-	input  clock,
-	input  reset,
+    input  clock,
+    input  reset,
     input  EX_Flush,
-	input  EX_Stall,
-	input  M_Stall,
-	// Control Signals
+    input  EX_Stall,
+    input  M_Stall,
+    // Control Signals
     input  EX_Movn,
     input  EX_Movz,
     input  EX_BZero,
-	input  EX_RegWrite,  // Future Control to WB
-	input  EX_MemtoReg,  // Future Control to WB
+    input  EX_RegWrite,  // Future Control to WB
+    input  EX_MemtoReg,  // Future Control to WB
     input  EX_ReverseEndian,
     input  EX_LLSC,
-	input  EX_MemRead,
-	input  EX_MemWrite,
-	input  EX_MemByte,
-	input  EX_MemHalf,
-	input  EX_MemSignExtend,
+    input  EX_MemRead,
+    input  EX_MemWrite,
+    input  EX_MemByte,
+    input  EX_MemHalf,
+    input  EX_MemSignExtend,
     input  EX_Left,
     input  EX_Right,
-	// Exception Control/Info
+    // Exception Control/Info
     input  EX_KernelMode,
     input  [31:0] EX_RestartPC,
     input  EX_IsBDS,
     input  EX_Trap,
     input  EX_TrapCond,
     input  EX_M_CanErr,
-	// Data Signals
-	input  [31:0] EX_ALU_Result,
-	input  [31:0] EX_ReadData2,
-	input  [4:0]  EX_RtRd,
-	// ------------------
-	output reg M_RegWrite,
-	output reg M_MemtoReg,
+    // Data Signals
+    input  [31:0] EX_ALU_Result,
+    input  [31:0] EX_ReadData2,
+    input  [4:0]  EX_RtRd,
+    // ------------------
+    output reg M_RegWrite,
+    output reg M_MemtoReg,
     output reg M_ReverseEndian,
     output reg M_LLSC,
-	output reg M_MemRead,
-	output reg M_MemWrite,
-	output reg M_MemByte,
-	output reg M_MemHalf,
-	output reg M_MemSignExtend,
+    output reg M_MemRead,
+    output reg M_MemWrite,
+    output reg M_MemByte,
+    output reg M_MemHalf,
+    output reg M_MemSignExtend,
     output reg M_Left,
     output reg M_Right,
     output reg M_KernelMode,
@@ -65,10 +65,10 @@ module EXMEM_Stage(
     output reg M_Trap,
     output reg M_TrapCond,
     output reg M_M_CanErr,
-	output reg [31:0] M_ALU_Result,
-	output reg [31:0] M_ReadData2,
-	output reg [4:0]  M_RtRd
-	);
+    output reg [31:0] M_ALU_Result,
+    output reg [31:0] M_ReadData2,
+    output reg [4:0]  M_RtRd
+    );
 
     /***
      The purpose of a pipeline register is to capture data from one pipeline stage
@@ -113,3 +113,4 @@ module EXMEM_Stage(
     end
 
 endmodule
+

@@ -79,3 +79,4 @@ module FIFO_NoFull_Count(clock, reset, enQ, deQ, data_in, data_out, empty, count
     );
     
 endmodule
+

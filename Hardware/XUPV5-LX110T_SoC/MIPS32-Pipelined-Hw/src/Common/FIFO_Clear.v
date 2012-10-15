@@ -78,3 +78,4 @@ module FIFO_Clear(clock, reset, clear, enQ, deQ, data_in, data_out, empty, full)
    );
     
 endmodule
+

@@ -37,5 +37,5 @@ module Switches(
         .switch_out  (Switch_out)
     );
 
-
 endmodule
+

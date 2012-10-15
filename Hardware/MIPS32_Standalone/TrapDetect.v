@@ -25,3 +25,4 @@ module TrapDetect(
     assign EXC_Tr = Trap & (TrapCond ^ ALUZero);
 
 endmodule
+

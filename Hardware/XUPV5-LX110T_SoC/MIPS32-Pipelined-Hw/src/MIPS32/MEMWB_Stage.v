@@ -16,26 +16,26 @@
  *   The Pipeline Register to bridge the Memory and Writeback stages.
  */
 module MEMWB_Stage(
-	input  clock,
-	input  reset,
+    input  clock,
+    input  reset,
     input  M_Flush,
     input  M_Stall,
-	input  WB_Stall,
-	// Control Signals
-	input  M_RegWrite,
-	input  M_MemtoReg,
-	// Data Signals
-	input  [31:0] M_ReadData,
-	input  [31:0] M_ALU_Result,
-	input  [4:0]  M_RtRd,
-	// ----------------
-	output reg WB_RegWrite,
-	output reg WB_MemtoReg,
-	output reg [31:0] WB_ReadData,
-	output reg [31:0] WB_ALU_Result,
-	output reg [4:0]  WB_RtRd
-	);
-	
+    input  WB_Stall,
+    // Control Signals
+    input  M_RegWrite,
+    input  M_MemtoReg,
+    // Data Signals
+    input  [31:0] M_ReadData,
+    input  [31:0] M_ALU_Result,
+    input  [4:0]  M_RtRd,
+    // ----------------
+    output reg WB_RegWrite,
+    output reg WB_MemtoReg,
+    output reg [31:0] WB_ReadData,
+    output reg [31:0] WB_ALU_Result,
+    output reg [4:0]  WB_RtRd
+    );
+    
     
     /***
      The purpose of a pipeline register is to capture data from one pipeline stage
@@ -71,3 +71,4 @@ module MEMWB_Stage(
     end
 
 endmodule
+

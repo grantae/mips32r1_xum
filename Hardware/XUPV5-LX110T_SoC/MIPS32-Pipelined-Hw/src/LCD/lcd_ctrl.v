@@ -136,3 +136,4 @@ module lcd_ctrl(
     end
 
 endmodule
+

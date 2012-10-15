@@ -35,3 +35,4 @@ module SRAM(clock, wEn, rAddr, wAddr, dIn, dOut);
     end
 
 endmodule
+

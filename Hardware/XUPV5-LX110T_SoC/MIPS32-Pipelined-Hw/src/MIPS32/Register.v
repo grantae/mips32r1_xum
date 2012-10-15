@@ -16,18 +16,19 @@
  *   value. Default is 32-bit width and 0s for initial value.
  */
 module Register #(parameter WIDTH = 32, INIT = 0)(
-	input  clock,
-	input  reset,
-	input  enable,
-	input  [(WIDTH-1):0] D,
-	output reg [(WIDTH-1):0] Q
-	);
-	    
-	initial
-		Q = INIT;
+    input  clock,
+    input  reset,
+    input  enable,
+    input  [(WIDTH-1):0] D,
+    output reg [(WIDTH-1):0] Q
+    );
+        
+    initial
+        Q = INIT;
 
-	always @(posedge clock) begin
-		Q <= (reset) ? INIT : ((enable) ? D : Q);
-	end
+    always @(posedge clock) begin
+        Q <= (reset) ? INIT : ((enable) ? D : Q);
+    end
 
 endmodule
+

@@ -24,48 +24,48 @@
 
 module Top_Tester;
 
-	// Inputs
-	reg clock_100MHz;
-	reg reset_n;
-	reg [7:0] Switch;
-	reg UART_Rx;
+    // Inputs
+    reg clock_100MHz;
+    reg reset_n;
+    reg [7:0] Switch;
+    reg UART_Rx;
 
-	// Outputs
-	wire [14:0] LED;
-	wire [6:0] LCD;
-	wire UART_Tx;
-	wire Piezo;
+    // Outputs
+    wire [14:0] LED;
+    wire [6:0] LCD;
+    wire UART_Tx;
+    wire Piezo;
 
-	// Bidirs
-	wire i2c_scl;
-	wire i2c_sda;
+    // Bidirs
+    wire i2c_scl;
+    wire i2c_sda;
 
-	// Instantiate the Unit Under Test (UUT)
-	Top uut (
-		.clock_100MHz(clock_100MHz), 
-		.reset_n(reset_n), 
-		.Switch(Switch), 
-		.LED(LED), 
-		.LCD(LCD), 
-		.UART_Rx(UART_Rx), 
-		.UART_Tx(UART_Tx), 
-		.i2c_scl(i2c_scl), 
-		.i2c_sda(i2c_sda), 
-		.Piezo(Piezo)
-	);
+    // Instantiate the Unit Under Test (UUT)
+    Top uut (
+        .clock_100MHz(clock_100MHz), 
+        .reset_n(reset_n), 
+        .Switch(Switch), 
+        .LED(LED), 
+        .LCD(LCD), 
+        .UART_Rx(UART_Rx), 
+        .UART_Tx(UART_Tx), 
+        .i2c_scl(i2c_scl), 
+        .i2c_sda(i2c_sda), 
+        .Piezo(Piezo)
+    );
     integer i;
 
-	initial begin
-		// Initialize Inputs
-		clock_100MHz = 0;
-		reset_n = 0;
-		Switch = 0;
-		UART_Rx = 0;
+    initial begin
+        // Initialize Inputs
+        clock_100MHz = 0;
+        reset_n = 0;
+        Switch = 0;
+        UART_Rx = 0;
 
-		// Wait 100 ns for global reset to finish
-		#100;
+        // Wait 100 ns for global reset to finish
+        #100;
         
-		// Add stimulus here
+        // Add stimulus here
         for (i=0; i<900000; i=i+1) begin
             reset_n = (i < 28) ? 0 : 1;
             clock_100MHz = ~clock_100MHz;
@@ -73,7 +73,7 @@ module Top_Tester;
             if (i > 100000) i = i - 1;
             #5;
         end
-	end
+    end
       
 endmodule
 

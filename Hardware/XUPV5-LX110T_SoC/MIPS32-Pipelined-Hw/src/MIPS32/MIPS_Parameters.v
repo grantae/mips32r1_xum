@@ -266,7 +266,7 @@ parameter [4:0] AluOp_Xor    = 5'd31;
 
 
 // Movc:10->11, Trap:9->10, TrapCond:8->9, RegDst:7->8
-			
+            
 /*** Datapath ***
 
      All Signals are Active High. Branching and Jump signals (determined by "PCSrc"),

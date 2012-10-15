@@ -17,25 +17,25 @@
  *   and Instruction Decode stages.
  */
 module IFID_Stage(
-	input  clock,
-	input  reset,
-	input  IF_Flush,
+    input  clock,
+    input  reset,
+    input  IF_Flush,
     input  IF_Stall,
-	input  ID_Stall,
-	// Control Signals
-	input  [31:0] IF_Instruction,
-	// Data Signals
-	input  [31:0] IF_PCAdd4,
+    input  ID_Stall,
+    // Control Signals
+    input  [31:0] IF_Instruction,
+    // Data Signals
+    input  [31:0] IF_PCAdd4,
     input  [31:0] IF_PC,
     input  IF_IsBDS,
-	// ------------------
-	output reg [31:0] ID_Instruction,
-	output reg [31:0] ID_PCAdd4,
+    // ------------------
+    output reg [31:0] ID_Instruction,
+    output reg [31:0] ID_PCAdd4,
     output reg [31:0] ID_RestartPC,
     output reg ID_IsBDS,
     output reg ID_IsFlushed
-	);
-	
+    );
+    
     /***
      The purpose of a pipeline register is to capture data from one pipeline stage
      and provide it to the next pipeline stage. This creates at least one clock cycle
@@ -72,3 +72,4 @@ module IFID_Stage(
     end
 
 endmodule
+

@@ -54,5 +54,5 @@ module RegisterFile(
     assign ReadData1 = (ReadReg1 == 0) ? 32'h00000000 : registers[ReadReg1];
     assign ReadData2 = (ReadReg2 == 0) ? 32'h00000000 : registers[ReadReg2];
 
+endmodule
 
-    endmodule

@@ -16,8 +16,6 @@
  *   which allows for multi-cycle and variably-timed operations on the
  *   data bus.
  */
-
-
 module BRAM_592KB_Wrapper(
     input  clock,
     input  reset,
@@ -78,3 +76,4 @@ module BRAM_592KB_Wrapper(
     );
 
 endmodule
+

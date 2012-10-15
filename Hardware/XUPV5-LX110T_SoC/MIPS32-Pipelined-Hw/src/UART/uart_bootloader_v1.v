@@ -1,4 +1,4 @@
-               `timescale 1ns / 1ps
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: Grant Ayers (ayers@cs.utah.edu)
@@ -180,3 +180,4 @@ module uart_bootloader(
    );
    
 endmodule
+

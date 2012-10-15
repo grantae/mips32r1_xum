@@ -18,24 +18,24 @@
  *   hardware design diagram. It contains very little logic itself.
  */
 module Processor(
-	input  clock,
-	input  reset,
+    input  clock,
+    input  reset,
     input  [4:0] Interrupts,            // 5 general-purpose hardware interrupts
     input  NMI,                         // Non-maskable interrupt
-	// Data Memory Interface
-	input  [31:0] DataMem_In,
-	input  DataMem_Ready,
-	output DataMem_Read, 
+    // Data Memory Interface
+    input  [31:0] DataMem_In,
+    input  DataMem_Ready,
+    output DataMem_Read, 
     output [3:0]  DataMem_Write,        // 4-bit Write, one for each byte in word.
-	output [29:0] DataMem_Address,      // Addresses are words, not bytes.
-	output [31:0] DataMem_Out,
-	// Instruction Memory Interface
-	input  [31:0] InstMem_In,
-	output [29:0] InstMem_Address,      // Addresses are words, not bytes.
-	input  InstMem_Ready,
-	output InstMem_Read,
+    output [29:0] DataMem_Address,      // Addresses are words, not bytes.
+    output [31:0] DataMem_Out,
+    // Instruction Memory Interface
+    input  [31:0] InstMem_In,
+    output [29:0] InstMem_Address,      // Addresses are words, not bytes.
+    input  InstMem_Ready,
+    output InstMem_Read,
     output [7:0] IP                     // Pending interrupts (diagnostic)
-	);
+    );
 
     `include "MIPS_Parameters.v"
 
@@ -674,3 +674,4 @@ module Processor(
     );
 
 endmodule
+
