@@ -19,7 +19,8 @@ Directory Layout
       
       -> XUPV5-LX110T_SoC:  Full System-on-Chip for XUPV5 board and Xilinx ISE 14.1
                             Project Navigator. Useful as a starting point for other
-                            boards as well.
+                            boards as well. See "HOWTO" in this directory for more
+                            information.
    
    Software:
       -> demos:             Software demos for XUM
@@ -35,3 +36,4 @@ the GNU LGPL. See the file 'LEGAL' in this same directory for more information.
 
 
 Enjoy!
+
