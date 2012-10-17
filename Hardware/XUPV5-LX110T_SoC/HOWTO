@@ -3,7 +3,7 @@ MIPS32-R1 SoC HOWTO
 
 This document is a step-by-step procedure for building the MIPS32 hardware
 and software and running it on the XUPV5-LX110T FPGA development board. With
-minimal changes, other hardware platforms may be used as well (see XXX)
+minimal changes, other hardware platforms may be used as well (see FAQ).
 
 Procedure
 ---------
