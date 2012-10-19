@@ -22,12 +22,12 @@ Procedure
        Virtex-5 device). A default program built into the BRAM will print
        a hello message to the LCD screen.
 
-       Alternatively, a pre-build .bit file is located in the
+       Alternatively, a pre-built .bit file is located in the
        "Hardware/XUPV5-LX110T_SoC" directory.
 
     4. Compile any of the software demos located in "Software/demos" using
        the Makefile included with the demo. One of the output files from
-       the compilation will have a .xum extension. This is binary file that
+       the compilation will have a .xum extension. This is a binary file that
        contains the code and data for the program. Use the XUM Bootloader
        software (Windows) to send the .xum file over a serial port to the
        FPGA. When the program is sent, the CPU will reset and run it.
