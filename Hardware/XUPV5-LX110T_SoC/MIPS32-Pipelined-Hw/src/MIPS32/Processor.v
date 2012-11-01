@@ -8,6 +8,7 @@
  *   Rev   Date         Initials  Description of Change
  *   1.0   23-Jul-2011  GEA       Initial design.
  *   2.0   26-May-2012  GEA       Release version with CP0.
+ *   2.01   1-Nov-2012  GEA       Fixed issue with Jal.
  *
  * Standards/Formatting:
  *   Verilog 2001, 4 soft tab, wide column.
@@ -384,7 +385,7 @@ module Processor(
         .in0  (ID_ReadData1_RF),
         .in1  (M_ALUResult),
         .in2  (WB_WriteData),
-        .in3  (ID_PCAdd4),
+        .in3  (32'hxxxxxxxx),
         .out  (ID_ReadData1_End)
     );
 
@@ -499,7 +500,7 @@ module Processor(
         .in0  (EX_ReadData1_PR),
         .in1  (M_ALUResult),
         .in2  (WB_WriteData),
-        .in3  (32'hxxxxxxxx),
+        .in3  (EX_RestartPC),
         .out  (EX_ReadData1_Fwd)
     );
 
@@ -509,7 +510,7 @@ module Processor(
         .in0  (EX_ReadData2_PR),
         .in1  (M_ALUResult),
         .in2  (WB_WriteData),
-        .in3  (32'h00000004),
+        .in3  (32'h00000008),
         .out  (EX_ReadData2_Fwd)
     );
 

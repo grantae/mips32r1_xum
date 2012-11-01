@@ -8,6 +8,7 @@
  *   Rev   Date         Initials  Description of Change
  *   1.0   23-Jul-2011  GEA       Initial design.
  *   2.0   26-May-2012  GEA       Release version with CP0.
+ *   2.01   1-Nov-2012  GEA       Fixed issue with Jal.
  *
  * Standards/Formatting:
  *   Verilog 2001, 4 soft tab, wide column.
@@ -164,9 +165,9 @@ module Hazard_Detection(
     assign IF_Stall = InstMem_Read | InstMem_Ready | IF_Exception_Stall;
     
     // Forwarding Control Final Assignments
-    assign ID_RsFwdSel = (ID_Link) ? 2'b11 : ((ID_Fwd_1) ? 2'b01 : ((ID_Fwd_3) ? 2'b10 : 2'b00));
-    assign ID_RtFwdSel = (Mfc0) ? 2'b11 : ((ID_Fwd_2) ? 2'b01 : ((ID_Fwd_4) ? 2'b10 : 2'b00));  
-    assign EX_RsFwdSel = (EX_Fwd_1) ? 2'b01 : ((EX_Fwd_3) ? 2'b10 : 2'b00);
+    assign ID_RsFwdSel = (ID_Fwd_1) ? 2'b01 : ((ID_Fwd_3) ? 2'b10 : 2'b00);
+    assign ID_RtFwdSel = (Mfc0) ? 2'b11 : ((ID_Fwd_2) ? 2'b01 : ((ID_Fwd_4) ? 2'b10 : 2'b00));
+    assign EX_RsFwdSel = (EX_Link) ? 2'b11 : ((EX_Fwd_1) ? 2'b01 : ((EX_Fwd_3) ? 2'b10 : 2'b00));
     assign EX_RtFwdSel = (EX_Link)  ? 2'b11 : ((EX_Fwd_2) ? 2'b01 : ((EX_Fwd_4) ? 2'b10 : 2'b00));
     assign M_WriteDataFwdSel = MEM_Fwd_1;
     
