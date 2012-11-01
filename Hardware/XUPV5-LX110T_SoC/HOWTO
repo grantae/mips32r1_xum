@@ -32,6 +32,18 @@ Procedure
        software (Windows) to send the .xum file over a serial port to the
        FPGA. When the program is sent, the CPU will reset and run it.
 
+Rebuilding the Block RAM
+------------------------
+    If you need to recreate the Block RAM core for any reason, the following
+    settings will allow you to do it (assuming Xilinx Block Memory Generator
+    version 7.1): True Dual Port RAM, Common Clock, Byte Write Enable of 8
+    bits, Write/Read width of 32 bits, Write depth of 151552 (for full
+    592 KB), Always Enabled, same options for port B, Register Port A Output
+    of Memory Primitives AND Memory Core (for 2R version, this can be
+    customized), same settings for Port B, fill remaining locations with
+    0x00000000, optionally load a .coe file with initial memory contents,
+    use RSTA and RSTB. The file 'Boot.coe' provides the simple hello message
+    program.
 
 FAQ
 ---
