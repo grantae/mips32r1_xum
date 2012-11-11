@@ -43,6 +43,7 @@ module Hazard_Detection(
     input  IF_Exception_Stall,
     input  ID_Exception_Stall,
     input  EX_Exception_Stall,
+    input  EX_ALU_Stall,
     input  M_Stall_Controller,  // Determined by data memory controller
     output IF_Stall,
     output ID_Stall,
@@ -159,7 +160,7 @@ module Hazard_Detection(
     // Stalls and Control Flow Final Assignments    
     assign WB_Stall = M_Stall;
     assign  M_Stall = IF_Stall | M_Stall_Controller;
-    assign EX_Stall = (EX_Stall_1 | EX_Stall_2 | EX_Exception_Stall) | M_Stall;
+    assign EX_Stall = (EX_Stall_1 | EX_Stall_2 | EX_Exception_Stall) | EX_ALU_Stall | M_Stall;
     assign ID_Stall = (ID_Stall_1 | ID_Stall_2 | ID_Stall_3 | ID_Stall_4 | ID_Exception_Stall) | EX_Stall;
     assign IF_Stall = InstMem_Read | InstMem_Ready | IF_Exception_Stall;
     

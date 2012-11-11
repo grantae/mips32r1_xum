@@ -96,7 +96,7 @@ module Processor(
     wire ID_IsFlushed;
 
     /*** EX (Execute) Signals ***/
-    wire EX_Stall;
+    wire EX_ALU_Stall, EX_Stall;
     wire [1:0] EX_RsFwdSel, EX_RtFwdSel;
     wire EX_Link;
     wire [1:0] EX_LinkRegDst;
@@ -245,6 +245,7 @@ module Processor(
         .IF_Exception_Stall  (IF_Exception_Stall),
         .ID_Exception_Stall  (ID_Exception_Stall),
         .EX_Exception_Stall  (EX_Exception_Stall),
+        .EX_ALU_Stall        (EX_ALU_Stall),
         .M_Stall_Controller  (M_Stall_Controller),
         .IF_Stall            (IF_Stall),
         .ID_Stall            (ID_Stall),
@@ -533,17 +534,18 @@ module Processor(
 
     /*** Arithmetic Logic Unit ***/
     ALU ALU (
-        .clock       (clock),
-        .reset       (reset),
-        .EX_Stall    (EX_Stall),
-        .EX_Flush    (EX_Exception_Flush),
-        .A           (EX_ReadData1_Fwd),
-        .B           (EX_ReadData2_Imm),
-        .Operation   (EX_ALUOp),
-        .Shamt       (EX_Shamt),
-        .Result      (EX_ALUResult),
-        .BZero       (EX_BZero),
-        .EXC_Ov      (EX_EXC_Ov)
+        .clock      (clock),
+        .reset      (reset),
+        .EX_Stall   (EX_Stall),
+        .EX_Flush   (EX_Exception_Flush),
+        .A          (EX_ReadData1_Fwd),
+        .B          (EX_ReadData2_Imm),
+        .Operation  (EX_ALUOp),
+        .Shamt      (EX_Shamt),
+        .Result     (EX_ALUResult),
+        .BZero      (EX_BZero),
+        .EXC_Ov     (EX_EXC_Ov),
+        .ALU_Stall  (EX_ALU_Stall)
     );
 
     /*** Execute -> Memory Pipeline Stage ***/

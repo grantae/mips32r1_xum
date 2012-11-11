@@ -524,6 +524,6 @@ module CPZero(
         else if (EXC_Int)  Cause_ExcCode_bits <= 4'h0;     // 00000     // OK that NMI writes this.
         else               Cause_ExcCode_bits <= 4'bxxxx;
     end
-    
+ 
 endmodule
 

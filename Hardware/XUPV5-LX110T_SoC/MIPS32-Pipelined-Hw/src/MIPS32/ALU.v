@@ -27,8 +27,9 @@ module ALU(
     input  [4:0]  Operation,
     input  signed [4:0] Shamt,
     output reg signed [31:0] Result,
-    output BZero,  // Used for Movc
-    output reg EXC_Ov
+    output BZero,           // Used for Movc
+    output reg EXC_Ov,
+    output ALU_Stall        // Stalls due to long ALU operations
     );
 
     `include "MIPS_Parameters.v"
@@ -43,23 +44,54 @@ module ALU(
      pipeline stage after the Execute forwarding has completed.
     ***/
     
-    wire signed [31:0] As = A;
-    wire signed [31:0] Bs = B;
     
+    /***
+     Divider Logic:
+     
+     The hardware divider requires 32 cycles to complete. Because it writes its
+     results to HILO and not to the pipeline, the pipeline can proceed without
+     stalling. When a later instruction tries to access HILO, the pipeline will
+     stall if the divide operation has not yet completed.
+    ***/
+    
+    
+    // Internal state registers
     reg  [63:0] HILO;
-    wire [31:0] HI = HILO[63:32];
-    wire [31:0] LO = HILO[31:0];
-    wire HILO_Commit = ~(EX_Stall | EX_Flush);
+    reg  HILO_Access;                   // Behavioral; not DFFs
+    reg  [5:0] CLO_Result, CLZ_Result;  // Behavioral; not DFFs
+    reg  div_fsm;
     
-    wire AddSub_Add = ((Operation == AluOp_Add) | (Operation == AluOp_Addu));
-    wire signed [31:0] AddSub_Result = (AddSub_Add) ? (A + B) : (A - B);
+    // Internal signals
+    wire [31:0] HI, LO;
+    wire HILO_Commit;
+    wire signed [31:0] As, Bs;
+    wire AddSub_Add;
+    wire signed [31:0] AddSub_Result;
+    wire signed [63:0] Mult_Result;
+    wire [63:0] Multu_Result;
+    wire [31:0] Quotient;
+    wire [31:0] Remainder;
+    wire Div_Stall;
+    wire Div_Start, Divu_Start;
+    wire DivOp;
+    wire Div_Commit;
     
-    wire signed [63:0] Mult_Result = As * Bs;
-    wire [63:0] Multu_Result = A * B;
-    
-    reg  [5:0] CLO_Result, CLZ_Result;
-    
+    // Assignments
+    assign HI = HILO[63:32];
+    assign LO = HILO[31:0];
+    assign HILO_Commit = ~(EX_Stall | EX_Flush);
+    assign As = A;
+    assign Bs = B;
+    assign AddSub_Add = ((Operation == AluOp_Add) | (Operation == AluOp_Addu));
+    assign AddSub_Result = (AddSub_Add) ? (A + B) : (A - B);
+    assign Mult_Result = As * Bs;
+    assign Multu_Result = A * B;
     assign BZero = (B == 32'h00000000);
+    assign DivOp = (Operation == AluOp_Div) || (Operation == AluOp_Divu);
+    assign Div_Commit   = (div_fsm == 1'b1) && (Div_Stall == 1'b0);
+    assign Div_Start    = (div_fsm == 1'b0) && (Operation == AluOp_Div)  && (HILO_Commit == 1'b1);
+    assign Divu_Start   = (div_fsm == 1'b0) && (Operation == AluOp_Divu) && (HILO_Commit == 1'b1);
+    assign ALU_Stall    = (div_fsm == 1'b1) && (HILO_Access == 1'b1);
     
     always @(*) begin
         case (Operation)
@@ -68,8 +100,6 @@ module ALU(
             AluOp_And   : Result <= A & B;
             AluOp_Clo   : Result <= {26'b0, CLO_Result};
             AluOp_Clz   : Result <= {26'b0, CLZ_Result};
-            AluOp_Div   : Result <= 32'hdeafbeef;   // XXX implement division
-            AluOp_Divu  : Result <= 32'hdeadbeef;   // XXX implement division
             AluOp_Mfhi  : Result <= HI;
             AluOp_Mflo  : Result <= LO;
             AluOp_Mul   : Result <= Mult_Result[31:0];
@@ -96,6 +126,9 @@ module ALU(
         if (reset) begin
             HILO <= 64'h00000000_00000000;
         end
+        else if (Div_Commit) begin
+            HILO <= {Remainder, Quotient};
+        end
         else if (HILO_Commit) begin
             case (Operation)
                 AluOp_Mult  : HILO <= Mult_Result;
@@ -114,6 +147,42 @@ module ALU(
         end
     end
     
+    // Detect accesses to HILO. RAW and WAW hazards are possible while a
+    // divide operation is computing, so reads and writes to HILO must stall
+    // while the divider is busy.
+    // (This logic could be put into an earlier pipeline stage or into the
+    // datapath bits to improve timing.)
+    always @(Operation) begin
+        case (Operation)
+            AluOp_Div   : HILO_Access <= 1;
+            AluOp_Divu  : HILO_Access <= 1;
+            AluOp_Mfhi  : HILO_Access <= 1;
+            AluOp_Mflo  : HILO_Access <= 1;
+            AluOp_Mult  : HILO_Access <= 1;
+            AluOp_Multu : HILO_Access <= 1;
+            AluOp_Madd  : HILO_Access <= 1;
+            AluOp_Maddu : HILO_Access <= 1;
+            AluOp_Msub  : HILO_Access <= 1;
+            AluOp_Msubu : HILO_Access <= 1;
+            AluOp_Mthi  : HILO_Access <= 1;
+            AluOp_Mtlo  : HILO_Access <= 1;
+            default     : HILO_Access <= 0;
+        endcase
+    end
+    
+    // Divider FSM: The divide unit is either available or busy.
+    always @(posedge clock) begin
+        if (reset) begin
+            div_fsm <= 2'd0;
+        end
+        else begin
+            case (div_fsm)
+                1'd0 : div_fsm <= (DivOp & HILO_Commit) ? 1'd1 : 1'd0;
+                1'd1 : div_fsm <= (~Div_Stall) ? 1'd0 : 1'd1;
+            endcase
+        end
+    end
+    
     // Detect overflow for signed operations. Note that MIPS32 has no overflow
     // detection for multiplication/division operations.
     always @(*) begin
@@ -123,7 +192,6 @@ module ALU(
             default   : EXC_Ov <= 0;
         endcase
     end
-    
     
     // Count Leading Ones
     always @(A) begin
@@ -204,6 +272,19 @@ module ALU(
             default : CLZ_Result <= 6'd0;
         endcase
     end
+
+    // Multicycle divide unit
+    Divide Divider (
+        .clock      (clock),
+        .reset      (reset),
+        .OP_div     (Div_Start),
+        .OP_divu    (Divu_Start),
+        .Dividend   (A),
+        .Divisor    (B),
+        .Quotient   (Quotient),
+        .Remainder  (Remainder),
+        .Stall      (Div_Stall)
+    );
 
 endmodule
 
