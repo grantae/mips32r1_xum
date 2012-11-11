@@ -58,12 +58,11 @@ parameter [31:0] UMem_Lower = 32'h08000000;
 
 /*** Processor Endianness ***
 
-     MIPS32 allows user-mode addresses to be configured as big- or little-endian. For simplicity
-     reasons, this processor fixes the endianness to little endian. To add support for both
-     modes, the Data Memory Controller should be updated as well as CP0, which should change
-     the 'RE' bit in the Status register from a wire to a writable register.
+     The MIPS Configuration Register (CP0 Register 16 Select 0) specifies the processor's
+     endianness. A processor in user mode may switch to reverse endianness, which will be
+     the opposite of this parameter.
 */
-parameter Big_Endian = 0;
+parameter Big_Endian = 1;
 
 
 

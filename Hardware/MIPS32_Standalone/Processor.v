@@ -233,7 +233,6 @@ module Processor(
         .EX_RtRd             (EX_RtRd),
         .MEM_RtRd            (M_RtRd),
         .WB_RtRd             (WB_RtRd),
-        .ID_Link             (ID_Link),
         .EX_Link             (EX_Link),
         .EX_RegWrite         (EX_RegWrite),
         .MEM_RegWrite        (M_RegWrite),

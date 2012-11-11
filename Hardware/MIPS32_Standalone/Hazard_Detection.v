@@ -31,7 +31,6 @@ module Hazard_Detection(
     input  [4:0] EX_RtRd,
     input  [4:0] MEM_RtRd,
     input  [4:0] WB_RtRd,
-    input  ID_Link,
     input  EX_Link,
     input  EX_RegWrite,
     input  MEM_RegWrite,
