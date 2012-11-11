@@ -8,7 +8,7 @@
 <!-- Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/BRAM/Coregen_BRAM_592KB_2R/BRAM_592KB_2R.v&quot; into library work</arg>
+<msg type="info" file="ProjectMgmt" num="1845" ><arg fmt="%s" index="1">Analyzing Verilog file &quot;C:/root/Work/Gauss/opencores_svn/mips32r1/trunk/Hardware/XUPV5-LX110T_SoC/MIPS32-Pipelined-Hw/src/BRAM/Coregen_BRAM_592KB_2R/BRAM_592KB_2R.v&quot; into library work</arg>
 </msg>
 
 </messages>

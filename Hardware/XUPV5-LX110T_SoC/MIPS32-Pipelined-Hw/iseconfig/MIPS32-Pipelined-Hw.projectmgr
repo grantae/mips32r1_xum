@@ -24,13 +24,13 @@
          <ClosedNode>/Top C:|root|Work|Gauss|XUM_2|Hardware|XUM_Singlecore|MIPS32-Pipelined-Hw|src|Top.v/UART - uart_bootloader</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>MIPS32 - Processor (C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Processor.v)</SelectedItem>
+         <SelectedItem>PCSrcStd_Mux - Mux4 (C:/root/Work/Gauss/opencores_svn/mips32r1/trunk/Hardware/XUPV5-LX110T_SoC/MIPS32-Pipelined-Hw/src/Common/Mux4.v)</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000020200000001000000010000006400000228000000020000000000000000000000000200000064ffffffff000000810000000300000002000002280000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>MIPS32 - Processor (C:/root/Work/Gauss/XUM_2/Hardware/XUM_Singlecore/MIPS32-Pipelined-Hw/src/MIPS32/Processor.v)</CurrentItem>
+      <CurrentItem>PCSrcStd_Mux - Mux4 (C:/root/Work/Gauss/opencores_svn/mips32r1/trunk/Hardware/XUPV5-LX110T_SoC/MIPS32-Pipelined-Hw/src/Common/Mux4.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="" guiview="Process" >
       <ClosedNodes>
@@ -83,7 +83,7 @@
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000ed000000010000000100000000000000000000000064ffffffff000000810000000000000001000000ed0000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000c9000000010000000100000000000000000000000064ffffffff000000810000000000000001000000c90000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
       <CurrentItem></CurrentItem>
    </ItemView>
@@ -125,13 +125,13 @@
          <ClosedNode>Design Utilities</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem/>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000ed000000010000000100000000000000000000000064ffffffff000000810000000000000001000000ed0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem/>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
