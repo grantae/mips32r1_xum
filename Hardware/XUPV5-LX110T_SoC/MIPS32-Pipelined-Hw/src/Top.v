@@ -102,7 +102,7 @@ module Top(
     wire [7:0] Switches_DOUT;
 
     // Clock Generation
-    PLL_100MHz_to_50MHz_100MHz Clock_Generator (
+    PLL_100MHz_to_33MHz_66MHz Clock_Generator (
         .CLKIN1_IN    (clock_100MHz),
         .RST_IN       (1'b0),
         .CLKOUT0_OUT  (clock), 

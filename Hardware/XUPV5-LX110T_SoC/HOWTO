@@ -14,8 +14,11 @@ Procedure
     2. Open the project file "MIPS32-Pipelined-Hw.xise" located in the
        "Hardware/XUPV5-LX110T_SoC/MIPS32-Pipelined-Hw" directory. This is
        a Xilinx ISE 14.1 project file.
+    
+    3. Build the Block RAM core by using the Block Memory Generator in
+       the Core Generator. See details below.
 
-    3. Build the hardware project and generate the programming .bit file.
+    4. Build the hardware project and generate the programming .bit file.
        Send the programming file to the board through Impact (you may need
        to create a new Impact project file for your system, but no options
        are needed other than the configuration .bit file targeted for the
@@ -23,9 +26,10 @@ Procedure
        a hello message to the LCD screen.
 
        Alternatively, a pre-built .bit file is located in the
-       "Hardware/XUPV5-LX110T_SoC" directory.
+       "Hardware/XUPV5-LX110T_SoC" directory. It is timed conservatively
+       at 33 MHz (66 MHz bus).
 
-    4. Compile any of the software demos located in "Software/demos" using
+    5. Compile any of the software demos located in "Software/demos" using
        the Makefile included with the demo. One of the output files from
        the compilation will have a .xum extension. This is a binary file that
        contains the code and data for the program. Use the XUM Bootloader
@@ -34,8 +38,8 @@ Procedure
 
 Rebuilding the Block RAM
 ------------------------
-    If you need to recreate the Block RAM core for any reason, the following
-    settings will allow you to do it (assuming Xilinx Block Memory Generator
+    The following settings will allow you to build the Block RAM module
+    and add a default program to it assuming Xilinx Block Memory Generator
     version 7.1): True Dual Port RAM, Common Clock, Byte Write Enable of 8
     bits, Write/Read width of 32 bits, Write depth of 151552 (for full
     592 KB), Always Enabled, same options for port B, Register Port A Output

@@ -29,22 +29,21 @@ module uart_clock(
     //  66MHz / (2^18 / 453) == 115203.857 Hz
     
 
-/*
     // 66 MHz version
     reg [14:0] accumulator = 15'h0000;
     always @(posedge clock) begin
         accumulator <= accumulator[13:0] + 453;
     end
     assign uart_tick_16x = accumulator[14];
-*/
 
+/*
     // 100 MHz version
     reg [13:0] accumulator = 14'h0000;
     always @(posedge clock) begin
         accumulator <= accumulator[12:0] + 151;
     end
     assign uart_tick_16x = accumulator[13];
-
+*/
 
     //------------------------------
     reg [3:0] uart_16x_count = 4'h0;

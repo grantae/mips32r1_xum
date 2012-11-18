@@ -16,9 +16,9 @@
  *   in the middle of the high and low periods of the clock.
  */
 module I2C_Clock(
-    input  clock,           // 100 MHz
+    input  clock,           // 100 (66) MHz
     input  reset,
-    inout  scl,             // A 100 kHz clock
+    inout  scl,             // A 100 (66) kHz clock
     output scl_tick_90      // A pulse indicating the middle of the +/- scl levels
     );
 
