@@ -1,8 +1,11 @@
-XUM MIPS32-R1 Release - 14 Oct 2012
+XUM MIPS32-R1 Release - 31 Dec 2013
 -----------------------------------
 
-This is an OpenCores release of the XUM MIPS32 processor
-from release 2.0 of the XUM project at the University of Utah.
+This is an implementation of the MIPS32 (Release 1) processor.
+
+This design was created by Grant Ayers and funded by the 
+eXtensible Utah Multicore (XUM) project at the University of Utah
+from 2010-2012. It was previously hosted on OpenCores as 'mips32r1'.
 
 This project provides all of the hardware and software needed to build
 a MIPS32-compliant processor and several I/O peripherals all from scratch
