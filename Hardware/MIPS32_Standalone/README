@@ -18,11 +18,13 @@ The memory interface is implemented as a four-way handshake:
                ____
     Ack: _____|    |____
 
-This interface is simple and robust but can limit the performance of the
+This interface is simple and robust but will limit the performance of the
 system. In the SoC design this is currently the case, since the instruction
-memory fetches only once per handshake. This greatly increases the maximum
-theoretical IPC from 1 to between 3 and 4.
+memory fetches only once per handshake. This greatly increases the minimum
+theoretical CPI from 1 to between 3 and 4.
 
-If your application requires maximum performance out of this processor,
-you should modify the memory handshake accordingly.
+IMPORTANT!
+If you want to achieve maximum performance (IPC close to 1.0), you must
+modify the memory handshake! (One future goal of this project is to provide
+a simple i-cache and single-cycle instruction accesses to the front-end.)
 
