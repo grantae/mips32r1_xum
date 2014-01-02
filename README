@@ -1,17 +1,70 @@
-XUM MIPS32-R1 Release - 31 Dec 2013
------------------------------------
+MIPS32R1 - 1 Jan 2014
+---------------------
 
-This is an implementation of the MIPS32 (Release 1) processor.
+This is an implementation of the MIPS32 Release 1 processor.
 
 This design was created by Grant Ayers and funded by the 
 eXtensible Utah Multicore (XUM) project at the University of Utah
 from 2010-2012. It was previously hosted on OpenCores as 'mips32r1'.
+Feel free to send questions or feedback to ayers AT cs.stanford.edu.
 
-This project provides all of the hardware and software needed to build
-a MIPS32-compliant processor and several I/O peripherals all from scratch
-and implement them on an FPGA. It contains a GCC- and binutils-based
-cross-compiler toolchain to allow custom code to be compiled and run
-on the hardware.
+
+Processor Details
+-----------------
+
+- Single-issue in-order 5-stage pipeline with full forwarding and hazard detection.
+- Harvard architecture with separate instruction and data ports which can be 
+  combined if desired.
+- All required MIPS32 instructions are implemented, including hardware multiplication
+  and division, fused multiply/adds, atomic load linked / store conditional, and
+  unaligned loads and stores.
+- Complete Coprocessor 0 allows ISA-compliant interrupts, exceptions, and user/kernel modes.
+- No MMU. This is a bare-metal processor.
+- No FPU, with toolchain support for software-based floating point.
+- Hardware divider is small, multicycle, and runs asynchronously from the pipeline
+  allowing some masking of latency.
+- Memory interface is separate from the processor for flexibility with connecting
+  various RAMs. It utilizes a four-way handshake.
+- Hardware is Big-Endian by default and supports reverse-endian mode in User mode.
+- Parameterized addresses for exception/interrupt vectors and boundary address
+  between user/kernel regions.
+- Extensive documentation in-source and elsewhere.
+- Vendor-independent code.
+- A clean, modular design written from scratch.
+
+The project includes a standalone MIPS32 processor as well as a full System-on-Chip
+design targeted for the Xilinx XUPV5-LX110T board. With minor changes (clock module,
+BRAM module, and pin constraints) the SoC can run on many hardware platforms.
+
+
+Other Hardware
+--------------
+
+The following MMIO hardware drivers are included as part of the SoC design:
+
+- Basic single-master I2C driver.
+- 16x2 LCD driver for Sitronix ST7066U, Samsung S6A0069X / KS0066U, Hitachi HD44780,
+  SMOS SED1278, or other compatible hardware.
+- LED driver.
+- Piezo transducer driver.
+- Switch input filter.
+- 115200 baud 8-N-1 serial port using only Tx and Rx with configurable baud rate.
+- 592 KB BRAM and clock generation for XUPV5 board.
+
+
+Software Details
+----------------
+
+- The software toolchain is based on Binutils, GCC, and Newlib. It can be built for almost
+  any platform, including unix-like environments and Windows (Cygwin). Instructions and
+  toolchain source code is included in the project. The current toolchain uses
+  Binutils 2.21, GCC 4.7.1 (mpfr 3.0.1, mpc 0.9, gmp 5.0.5), and Newlib 1.20.0.
+  The toolchain supports Big- and Little-Endian code as well as software floating point.
+  Newlib C library stubs (printf, etc.) are left unchanged.
+- Several demos are written in C and assembly.
+- The XUM bootloader is included, which loads programs from a PC to the FPGA. This is
+  written in C# for Windows, however the boot protocol is simple and can be implemented
+  in any operating system or not used at all.
 
 
 Directory Layout
