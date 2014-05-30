@@ -120,40 +120,39 @@ module IDEX_Stage(
     assign EX_SignExtImm = (EX_SignExtImm_pre[16]) ? {15'h7fff, EX_SignExtImm_pre[16:0]} : {15'h0000, EX_SignExtImm_pre[16:0]};
     
     always @(posedge clock) begin
-        EX_Link           <= (reset) ? 0     : ((EX_Stall) ? EX_Link                                       : ID_Link);
-        EX_RegDst         <= (reset) ? 0     : ((EX_Stall) ? EX_RegDst                                     : ID_RegDst);
-        EX_ALUSrcImm      <= (reset) ? 0     : ((EX_Stall) ? EX_ALUSrcImm                                  : ID_ALUSrcImm);
+        EX_Link           <= (reset) ? 1'b0  : ((EX_Stall) ? EX_Link                                          : ID_Link);
+        EX_RegDst         <= (reset) ? 1'b0  : ((EX_Stall) ? EX_RegDst                                        : ID_RegDst);
+        EX_ALUSrcImm      <= (reset) ? 1'b0  : ((EX_Stall) ? EX_ALUSrcImm                                     : ID_ALUSrcImm);
         EX_ALUOp          <= (reset) ? 5'b0  : ((EX_Stall) ? EX_ALUOp         : ((ID_Stall | ID_Flush) ? 5'b0 : ID_ALUOp));
-        EX_Movn           <= (reset) ? 0     : ((EX_Stall) ? EX_Movn                                       : ID_Movn);
-        EX_Movz           <= (reset) ? 0     : ((EX_Stall) ? EX_Movz                                       : ID_Movz);
-        EX_LLSC           <= (reset) ? 0     : ((EX_Stall) ? EX_LLSC                                       : ID_LLSC);
-        EX_MemRead        <= (reset) ? 0     : ((EX_Stall) ? EX_MemRead       : ((ID_Stall | ID_Flush) ? 0 : ID_MemRead));
-        EX_MemWrite       <= (reset) ? 0     : ((EX_Stall) ? EX_MemWrite      : ((ID_Stall | ID_Flush) ? 0 : ID_MemWrite));
-        EX_MemByte        <= (reset) ? 0     : ((EX_Stall) ? EX_MemByte                                    : ID_MemByte);
-        EX_MemHalf        <= (reset) ? 0     : ((EX_Stall) ? EX_MemHalf                                    : ID_MemHalf);
-        EX_MemSignExtend  <= (reset) ? 0     : ((EX_Stall) ? EX_MemSignExtend                              : ID_MemSignExtend);
-        EX_Left           <= (reset) ? 0     : ((EX_Stall) ? EX_Left                                       : ID_Left);
-        EX_Right          <= (reset) ? 0     : ((EX_Stall) ? EX_Right                                      : ID_Right);
-        EX_RegWrite       <= (reset) ? 0     : ((EX_Stall) ? EX_RegWrite      : ((ID_Stall | ID_Flush) ? 0 : ID_RegWrite));
-        EX_MemtoReg       <= (reset) ? 0     : ((EX_Stall) ? EX_MemtoReg                                   : ID_MemtoReg);
-        EX_ReverseEndian  <= (reset) ? 0     : ((EX_Stall) ? EX_ReverseEndian                              : ID_ReverseEndian);
-        EX_RestartPC      <= (reset) ? 32'b0 : ((EX_Stall) ? EX_RestartPC                                  : ID_RestartPC);
-        EX_IsBDS          <= (reset) ? 0     : ((EX_Stall) ? EX_IsBDS                                      : ID_IsBDS);
-        EX_Trap           <= (reset) ? 0     : ((EX_Stall) ? EX_Trap          : ((ID_Stall | ID_Flush) ? 0 : ID_Trap));
-        EX_TrapCond       <= (reset) ? 0     : ((EX_Stall) ? EX_TrapCond                                   : ID_TrapCond);
-        EX_EX_CanErr      <= (reset) ? 0     : ((EX_Stall) ? EX_EX_CanErr     : ((ID_Stall | ID_Flush) ? 0 : ID_EX_CanErr));
-        EX_M_CanErr       <= (reset) ? 0     : ((EX_Stall) ? EX_M_CanErr      : ((ID_Stall | ID_Flush) ? 0 : ID_M_CanErr));
-        EX_ReadData1      <= (reset) ? 32'b0 : ((EX_Stall) ? EX_ReadData1                                  : ID_ReadData1);
-        EX_ReadData2      <= (reset) ? 32'b0 : ((EX_Stall) ? EX_ReadData2                                  : ID_ReadData2);
-        EX_SignExtImm_pre <= (reset) ? 17'b0 : ((EX_Stall) ? EX_SignExtImm_pre                             : ID_SignExtImm);
-        EX_Rs             <= (reset) ? 5'b0  : ((EX_Stall) ? EX_Rs                                         : ID_Rs);
-        EX_Rt             <= (reset) ? 5'b0  : ((EX_Stall) ? EX_Rt                                         : ID_Rt);
-        EX_WantRsByEX     <= (reset) ? 0     : ((EX_Stall) ? EX_WantRsByEX    : ((ID_Stall | ID_Flush) ? 0 : ID_WantRsByEX));
-        EX_NeedRsByEX     <= (reset) ? 0     : ((EX_Stall) ? EX_NeedRsByEX    : ((ID_Stall | ID_Flush) ? 0 : ID_NeedRsByEX));
-        EX_WantRtByEX     <= (reset) ? 0     : ((EX_Stall) ? EX_WantRtByEX    : ((ID_Stall | ID_Flush) ? 0 : ID_WantRtByEX));
-        EX_NeedRtByEX     <= (reset) ? 0     : ((EX_Stall) ? EX_NeedRtByEX    : ((ID_Stall | ID_Flush) ? 0 : ID_NeedRtByEX));
-        EX_KernelMode     <= (reset) ? 0     : ((EX_Stall) ? EX_KernelMode                                 : ID_KernelMode);
+        EX_Movn           <= (reset) ? 1'b0  : ((EX_Stall) ? EX_Movn                                          : ID_Movn);
+        EX_Movz           <= (reset) ? 1'b0  : ((EX_Stall) ? EX_Movz                                          : ID_Movz);
+        EX_LLSC           <= (reset) ? 1'b0  : ((EX_Stall) ? EX_LLSC                                          : ID_LLSC);
+        EX_MemRead        <= (reset) ? 1'b0  : ((EX_Stall) ? EX_MemRead       : ((ID_Stall | ID_Flush) ? 1'b0 : ID_MemRead));
+        EX_MemWrite       <= (reset) ? 1'b0  : ((EX_Stall) ? EX_MemWrite      : ((ID_Stall | ID_Flush) ? 1'b0 : ID_MemWrite));
+        EX_MemByte        <= (reset) ? 1'b0  : ((EX_Stall) ? EX_MemByte                                       : ID_MemByte);
+        EX_MemHalf        <= (reset) ? 1'b0  : ((EX_Stall) ? EX_MemHalf                                       : ID_MemHalf);
+        EX_MemSignExtend  <= (reset) ? 1'b0  : ((EX_Stall) ? EX_MemSignExtend                                 : ID_MemSignExtend);
+        EX_Left           <= (reset) ? 1'b0  : ((EX_Stall) ? EX_Left                                          : ID_Left);
+        EX_Right          <= (reset) ? 1'b0  : ((EX_Stall) ? EX_Right                                         : ID_Right);
+        EX_RegWrite       <= (reset) ? 1'b0  : ((EX_Stall) ? EX_RegWrite      : ((ID_Stall | ID_Flush) ? 1'b0 : ID_RegWrite));
+        EX_MemtoReg       <= (reset) ? 1'b0  : ((EX_Stall) ? EX_MemtoReg                                      : ID_MemtoReg);
+        EX_ReverseEndian  <= (reset) ? 1'b0  : ((EX_Stall) ? EX_ReverseEndian                                 : ID_ReverseEndian);
+        EX_RestartPC      <= (reset) ? 32'b0 : ((EX_Stall) ? EX_RestartPC                                     : ID_RestartPC);
+        EX_IsBDS          <= (reset) ? 1'b0  : ((EX_Stall) ? EX_IsBDS                                         : ID_IsBDS);
+        EX_Trap           <= (reset) ? 1'b0  : ((EX_Stall) ? EX_Trap          : ((ID_Stall | ID_Flush) ? 1'b0 : ID_Trap));
+        EX_TrapCond       <= (reset) ? 1'b0  : ((EX_Stall) ? EX_TrapCond                                      : ID_TrapCond);
+        EX_EX_CanErr      <= (reset) ? 1'b0  : ((EX_Stall) ? EX_EX_CanErr     : ((ID_Stall | ID_Flush) ? 1'b0 : ID_EX_CanErr));
+        EX_M_CanErr       <= (reset) ? 1'b0  : ((EX_Stall) ? EX_M_CanErr      : ((ID_Stall | ID_Flush) ? 1'b0 : ID_M_CanErr));
+        EX_ReadData1      <= (reset) ? 32'b0 : ((EX_Stall) ? EX_ReadData1                                     : ID_ReadData1);
+        EX_ReadData2      <= (reset) ? 32'b0 : ((EX_Stall) ? EX_ReadData2                                     : ID_ReadData2);
+        EX_SignExtImm_pre <= (reset) ? 17'b0 : ((EX_Stall) ? EX_SignExtImm_pre                                : ID_SignExtImm);
+        EX_Rs             <= (reset) ? 5'b0  : ((EX_Stall) ? EX_Rs                                            : ID_Rs);
+        EX_Rt             <= (reset) ? 5'b0  : ((EX_Stall) ? EX_Rt                                            : ID_Rt);
+        EX_WantRsByEX     <= (reset) ? 1'b0  : ((EX_Stall) ? EX_WantRsByEX    : ((ID_Stall | ID_Flush) ? 1'b0 : ID_WantRsByEX));
+        EX_NeedRsByEX     <= (reset) ? 1'b0  : ((EX_Stall) ? EX_NeedRsByEX    : ((ID_Stall | ID_Flush) ? 1'b0 : ID_NeedRsByEX));
+        EX_WantRtByEX     <= (reset) ? 1'b0  : ((EX_Stall) ? EX_WantRtByEX    : ((ID_Stall | ID_Flush) ? 1'b0 : ID_WantRtByEX));
+        EX_NeedRtByEX     <= (reset) ? 1'b0  : ((EX_Stall) ? EX_NeedRtByEX    : ((ID_Stall | ID_Flush) ? 1'b0 : ID_NeedRtByEX));
+        EX_KernelMode     <= (reset) ? 1'b0  : ((EX_Stall) ? EX_KernelMode                                    : ID_KernelMode);
     end
 
 endmodule
-

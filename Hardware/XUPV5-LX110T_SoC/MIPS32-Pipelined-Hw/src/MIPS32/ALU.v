@@ -173,7 +173,7 @@ module ALU(
     // Divider FSM: The divide unit is either available or busy.
     always @(posedge clock) begin
         if (reset) begin
-            div_fsm <= 2'd0;
+            div_fsm <= 1'd0;
         end
         else begin
             case (div_fsm)

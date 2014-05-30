@@ -89,27 +89,27 @@ module EXMEM_Stage(
     wire MovcRegWrite = (EX_Movn & ~EX_BZero) | (EX_Movz & EX_BZero);
     
     always @(posedge clock) begin
-        M_RegWrite      <= (reset) ? 0     : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 0 : EX_RegWrite));
-        M_RegWrite      <= (reset) ? 0     : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 0 : ((EX_Movn | EX_Movz) ? MovcRegWrite : EX_RegWrite)));
-        M_MemtoReg      <= (reset) ? 0     : ((M_Stall) ? M_MemtoReg                                   : EX_MemtoReg);
-        M_ReverseEndian <= (reset) ? 0     : ((M_Stall) ? M_ReverseEndian                              : EX_ReverseEndian);
-        M_LLSC          <= (reset) ? 0     : ((M_Stall) ? M_LLSC                                       : EX_LLSC);
-        M_MemRead       <= (reset) ? 0     : ((M_Stall) ? M_MemRead       : ((EX_Stall | EX_Flush) ? 0 : EX_MemRead));
-        M_MemWrite      <= (reset) ? 0     : ((M_Stall) ? M_MemWrite      : ((EX_Stall | EX_Flush) ? 0 : EX_MemWrite));
-        M_MemByte       <= (reset) ? 0     : ((M_Stall) ? M_MemByte                                    : EX_MemByte);
-        M_MemHalf       <= (reset) ? 0     : ((M_Stall) ? M_MemHalf                                    : EX_MemHalf);
-        M_MemSignExtend <= (reset) ? 0     : ((M_Stall) ? M_MemSignExtend                              : EX_MemSignExtend);
-        M_Left          <= (reset) ? 0     : ((M_Stall) ? M_Left                                       : EX_Left);
-        M_Right         <= (reset) ? 0     : ((M_Stall) ? M_Right                                      : EX_Right);
-        M_KernelMode    <= (reset) ? 0     : ((M_Stall) ? M_KernelMode                                 : EX_KernelMode);
-        M_RestartPC     <= (reset) ? 32'b0 : ((M_Stall) ? M_RestartPC                                  : EX_RestartPC);
-        M_IsBDS         <= (reset) ? 0     : ((M_Stall) ? M_IsBDS                                      : EX_IsBDS);
-        M_Trap          <= (reset) ? 0     : ((M_Stall) ? M_Trap          : ((EX_Stall | EX_Flush) ? 0 : EX_Trap));
-        M_TrapCond      <= (reset) ? 0     : ((M_Stall) ? M_TrapCond                                   : EX_TrapCond);
-        M_M_CanErr      <= (reset) ? 0     : ((M_Stall) ? M_M_CanErr      : ((EX_Stall | EX_Flush) ? 0 : EX_M_CanErr));
-        M_ALU_Result    <= (reset) ? 32'b0 : ((M_Stall) ? M_ALU_Result                                 : EX_ALU_Result);
-        M_ReadData2     <= (reset) ? 32'b0 : ((M_Stall) ? M_ReadData2                                  : EX_ReadData2);
-        M_RtRd          <= (reset) ? 5'b0  : ((M_Stall) ? M_RtRd                                       : EX_RtRd);
+        M_RegWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : EX_RegWrite));
+        M_RegWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : ((EX_Movn | EX_Movz) ? MovcRegWrite : EX_RegWrite)));
+        M_MemtoReg      <= (reset) ? 1'b0  : ((M_Stall) ? M_MemtoReg                                      : EX_MemtoReg);
+        M_ReverseEndian <= (reset) ? 1'b0  : ((M_Stall) ? M_ReverseEndian                                 : EX_ReverseEndian);
+        M_LLSC          <= (reset) ? 1'b0  : ((M_Stall) ? M_LLSC                                          : EX_LLSC);
+        M_MemRead       <= (reset) ? 1'b0  : ((M_Stall) ? M_MemRead       : ((EX_Stall | EX_Flush) ? 1'b0 : EX_MemRead));
+        M_MemWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_MemWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : EX_MemWrite));
+        M_MemByte       <= (reset) ? 1'b0  : ((M_Stall) ? M_MemByte                                       : EX_MemByte);
+        M_MemHalf       <= (reset) ? 1'b0  : ((M_Stall) ? M_MemHalf                                       : EX_MemHalf);
+        M_MemSignExtend <= (reset) ? 1'b0  : ((M_Stall) ? M_MemSignExtend                                 : EX_MemSignExtend);
+        M_Left          <= (reset) ? 1'b0  : ((M_Stall) ? M_Left                                          : EX_Left);
+        M_Right         <= (reset) ? 1'b0  : ((M_Stall) ? M_Right                                         : EX_Right);
+        M_KernelMode    <= (reset) ? 1'b0  : ((M_Stall) ? M_KernelMode                                    : EX_KernelMode);
+        M_RestartPC     <= (reset) ? 32'b0 : ((M_Stall) ? M_RestartPC                                     : EX_RestartPC);
+        M_IsBDS         <= (reset) ? 1'b0  : ((M_Stall) ? M_IsBDS                                         : EX_IsBDS);
+        M_Trap          <= (reset) ? 1'b0  : ((M_Stall) ? M_Trap          : ((EX_Stall | EX_Flush) ? 1'b0 : EX_Trap));
+        M_TrapCond      <= (reset) ? 1'b0  : ((M_Stall) ? M_TrapCond                                      : EX_TrapCond);
+        M_M_CanErr      <= (reset) ? 1'b0  : ((M_Stall) ? M_M_CanErr      : ((EX_Stall | EX_Flush) ? 1'b0 : EX_M_CanErr));
+        M_ALU_Result    <= (reset) ? 32'b0 : ((M_Stall) ? M_ALU_Result                                    : EX_ALU_Result);
+        M_ReadData2     <= (reset) ? 32'b0 : ((M_Stall) ? M_ReadData2                                     : EX_ReadData2);
+        M_RtRd          <= (reset) ? 5'b0  : ((M_Stall) ? M_RtRd                                          : EX_RtRd);
     end
 
 endmodule

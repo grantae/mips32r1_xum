@@ -63,11 +63,11 @@ module MEMWB_Stage(
     ***/
     
     always @(posedge clock) begin
-        WB_RegWrite   <= (reset) ? 0     : ((WB_Stall) ? WB_RegWrite   : ((M_Stall | M_Flush) ? 0 : M_RegWrite));
-        WB_MemtoReg   <= (reset) ? 0     : ((WB_Stall) ? WB_MemtoReg                              : M_MemtoReg);
-        WB_ReadData   <= (reset) ? 32'b0 : ((WB_Stall) ? WB_ReadData                              : M_ReadData);
-        WB_ALU_Result <= (reset) ? 32'b0 : ((WB_Stall) ? WB_ALU_Result                            : M_ALU_Result);
-        WB_RtRd       <= (reset) ? 5'b0  : ((WB_Stall) ? WB_RtRd                                  : M_RtRd);
+        WB_RegWrite   <= (reset) ? 1'b0  : ((WB_Stall) ? WB_RegWrite   : ((M_Stall | M_Flush) ? 1'b0 : M_RegWrite));
+        WB_MemtoReg   <= (reset) ? 1'b0  : ((WB_Stall) ? WB_MemtoReg                                 : M_MemtoReg);
+        WB_ReadData   <= (reset) ? 32'b0 : ((WB_Stall) ? WB_ReadData                                 : M_ReadData);
+        WB_ALU_Result <= (reset) ? 32'b0 : ((WB_Stall) ? WB_ALU_Result                               : M_ALU_Result);
+        WB_RtRd       <= (reset) ? 5'b0  : ((WB_Stall) ? WB_RtRd                                     : M_RtRd);
     end
 
 endmodule

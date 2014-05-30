@@ -66,9 +66,9 @@ module IFID_Stage(
     always @(posedge clock) begin
         ID_Instruction <= (reset) ? 32'b0 : ((ID_Stall) ? ID_Instruction : ((IF_Stall | IF_Flush) ? 32'b0 : IF_Instruction));
         ID_PCAdd4      <= (reset) ? 32'b0 : ((ID_Stall) ? ID_PCAdd4                                       : IF_PCAdd4);
-        ID_IsBDS       <= (reset) ? 0     : ((ID_Stall) ? ID_IsBDS                                        : IF_IsBDS);
+        ID_IsBDS       <= (reset) ? 1'b0  : ((ID_Stall) ? ID_IsBDS                                        : IF_IsBDS);
         ID_RestartPC   <= (reset) ? 32'b0 : ((ID_Stall | IF_IsBDS) ? ID_RestartPC                         : IF_PC);
-        ID_IsFlushed   <= (reset) ? 0     : ((ID_Stall) ? ID_IsFlushed                                    : IF_Flush);
+        ID_IsFlushed   <= (reset) ? 1'b0  : ((ID_Stall) ? ID_IsFlushed                                    : IF_Flush);
     end
 
 endmodule

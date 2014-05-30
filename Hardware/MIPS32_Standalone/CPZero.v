@@ -379,7 +379,7 @@ module CPZero(
         else begin
             Status_BEV    <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[22]   : Status_BEV;
             Status_NMI    <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[19]   : Status_NMI;
-            Status_ERL    <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[2]    : ((Status_ERL & ERET & ~ID_Stall) ? 0 : Status_ERL);
+            Status_ERL    <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[2]    : ((Status_ERL & ERET & ~ID_Stall) ? 1'b0 : Status_ERL);
             ErrorEPC      <= (CP0_WriteCond & (Rd == 5'd30) & (Sel == 3'b000)) ? Reg_In       : ErrorEPC;
         end
     end
@@ -412,7 +412,7 @@ module CPZero(
                [1:0] are set and cleared by software.
              */
             // If reading -> 0, Otherwise if 0 -> Int5.
-            Cause_IP[7]   <= ((Status_CU_0 | KernelMode) & Mfc0 & (Rd == 5'd9) & (Sel == 3'b000)) ? 0 : ((Cause_IP[7] == 0) ? Int5 : Cause_IP[7]);
+            Cause_IP[7]   <= ((Status_CU_0 | KernelMode) & Mfc0 & (Rd == 5'd9) & (Sel == 3'b000)) ? 1'b0 : ((Cause_IP[7] == 0) ? Int5 : Cause_IP[7]);
             Cause_IP[6:2] <= Int[4:0];
             Cause_IP[1:0] <= (CP0_WriteCond & (Rd == 5'd13) & (Sel == 3'b000)) ? Reg_In[9:8]  : Cause_IP[1:0];
         end
@@ -471,7 +471,7 @@ module CPZero(
                 Cause_CE <= Cause_CE;
                 Cause_ExcCode30 <= Cause_ExcCode30;
                 // Without new exceptions, 'Status_EXL' is set by software or cleared by ERET.
-                Status_EXL <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[1] : ((Status_EXL & ERET & ~ID_Stall) ? 0 : Status_EXL);
+                Status_EXL <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[1] : ((Status_EXL & ERET & ~ID_Stall) ? 1'b0 : Status_EXL);
                 // The EPC is also writable by software
                 EPC <= (CP0_WriteCond & (Rd == 5'd14) & (Sel == 3'b000)) ? Reg_In : EPC;
                 BadVAddr <= BadVAddr;

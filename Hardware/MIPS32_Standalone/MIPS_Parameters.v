@@ -62,7 +62,7 @@ parameter [31:0] UMem_Lower = 32'h08000000;
      endianness. A processor in user mode may switch to reverse endianness, which will be
      the opposite of this parameter.
 */
-parameter Big_Endian = 1;
+parameter Big_Endian = 1'b1;
 
 
 

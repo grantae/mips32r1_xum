@@ -103,14 +103,13 @@ module MemControl(
     
     always @(posedge clock) begin
         if (reset) begin
-            LLSC_Atomic <= 0;
+            LLSC_Atomic <= 1'b0;
         end
         else if (MemRead) begin
-            LLSC_Atomic <= (LLSC) ? 1 : LLSC_Atomic;
+            LLSC_Atomic <= (LLSC) ? 1'b1 : LLSC_Atomic;
         end
-        // XXX GEA Bug for Ganesh: remove "& ~IF_Stall" from below, then SC will always fail:
         else if (ERET | (~M_Stall & ~IF_Stall & MemWrite & (Address[31:2] == LLSC_Address))) begin
-            LLSC_Atomic <= 0;
+            LLSC_Atomic <= 1'b0;
         end
         else begin
             LLSC_Atomic <= LLSC_Atomic;
@@ -123,7 +122,7 @@ module MemControl(
     
     reg RW_Mask;
     always @(posedge clock) begin
-        RW_Mask <= (reset) ? 0 : (((MemWrite | MemRead) & DataMem_Ready) ? 1 : ((~M_Stall & ~IF_Stall) ? 0 : RW_Mask));
+        RW_Mask <= (reset) ? 1'b0 : (((MemWrite | MemRead) & DataMem_Ready) ? 1'b1 : ((~M_Stall & ~IF_Stall) ? 1'b0 : RW_Mask));
     end
     assign M_Stall = ReadEnable | (WriteEnable != 4'b0000) | DataMem_Ready    | M_Exception_Stall;
     assign ReadEnable  = ReadCondition  & ~RW_Mask;

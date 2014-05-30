@@ -146,7 +146,7 @@ module Processor(
     wire M_Exception_Stall;
 
     /*** WB (Writeback) Signals ***/
-    wire WB_Stall, WB_RegWrite;
+    wire WB_Stall, WB_RegWrite, WB_MemtoReg;
     wire [31:0] WB_ReadData, WB_ALUResult;
     wire [4:0]  WB_RtRd;
     wire [31:0] WB_WriteData;
@@ -167,8 +167,8 @@ module Processor(
     assign InstMem_Address = IF_PCOut[31:2];
     assign DataMem_Address = M_ALUResult[31:2];
     always @(posedge clock) begin
-        IRead <= (reset) ? 1 : ~InstMem_Ready;
-        IReadMask <= (reset) ? 0 : ((IRead & InstMem_Ready) ? 1 : ((~IF_Stall) ? 0 : IReadMask));
+        IRead <= (reset) ? 1'b1 : ~InstMem_Ready;
+        IReadMask <= (reset) ? 1'b0 : ((IRead & InstMem_Ready) ? 1'b1 : ((~IF_Stall) ? 1'b1 : IReadMask));
     end
     assign InstMem_Read = IRead & ~IReadMask;
 
