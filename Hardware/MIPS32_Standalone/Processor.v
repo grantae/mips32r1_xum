@@ -161,7 +161,6 @@ module Processor(
     assign IF_EXC_AdIF = IF_PCOut[1] | IF_PCOut[0];
     assign ID_CanErr = ID_ID_CanErr | ID_EX_CanErr | ID_M_CanErr;
     assign EX_CanErr = EX_EX_CanErr | EX_M_CanErr;
-    assign M_CanErr  = M_M_CanErr;
 
     // External Memory Interface
     reg IRead, IReadMask;
@@ -299,7 +298,7 @@ module Processor(
         .BadAddr_IF          (IF_PCOut),
         .ID_CanErr           (ID_CanErr),
         .EX_CanErr           (EX_CanErr),
-        .M_CanErr            (M_CanErr),
+        .M_CanErr            (M_M_CanErr),
         .IF_Exception_Stall  (IF_Exception_Stall),
         .ID_Exception_Stall  (ID_Exception_Stall),
         .EX_Exception_Stall  (EX_Exception_Stall),
