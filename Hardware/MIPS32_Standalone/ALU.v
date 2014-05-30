@@ -117,7 +117,7 @@ module ALU(
             AluOp_Sub   : Result <= AddSub_Result;
             AluOp_Subu  : Result <= AddSub_Result;
             AluOp_Xor   : Result <= A ^ B;
-            default     : Result <= 32'bx;
+            default     : Result <= 32'hxxxx_xxxx;
         endcase
     end
     
