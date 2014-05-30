@@ -321,7 +321,7 @@ module Control(
                     case (Rs)
                         OpRs_MF   : begin DP_Hazards <= HAZ_Mfc0; DP_Exceptions <= EXC_Mfc0; end
                         OpRs_MT   : begin DP_Hazards <= HAZ_Mtc0; DP_Exceptions <= EXC_Mtc0; end
-                        OpRs_ERET : begin DP_Hazards <= (Funct == Funct_ERET) ? DP_Eret : 8'hxx; DP_Exceptions <= EXC_Eret; end
+                        OpRs_ERET : begin DP_Hazards <= (Funct == Funct_ERET) ? HAZ_Eret : 8'hxx; DP_Exceptions <= EXC_Eret; end
                         default   : begin DP_Hazards <= 8'hxx;    DP_Exceptions <= 3'bxxx;   end
                     endcase
                 end
