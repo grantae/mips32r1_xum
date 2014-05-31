@@ -168,7 +168,7 @@ module Processor(
     assign DataMem_Address = M_ALUResult[31:2];
     always @(posedge clock) begin
         IRead <= (reset) ? 1'b1 : ~InstMem_Ready;
-        IReadMask <= (reset) ? 1'b0 : ((IRead & InstMem_Ready) ? 1'b1 : ((~IF_Stall) ? 1'b1 : IReadMask));
+        IReadMask <= (reset) ? 1'b0 : ((IRead & InstMem_Ready) ? 1'b1 : ((~IF_Stall) ? 1'b0 : IReadMask));
     end
     assign InstMem_Read = IRead & ~IReadMask;
 
