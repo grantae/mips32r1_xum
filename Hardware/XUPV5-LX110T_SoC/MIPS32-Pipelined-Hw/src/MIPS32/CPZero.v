@@ -274,7 +274,6 @@ module CPZero(
 
     /*** Interrupts ***/
     assign Int5 = (Count == Compare);
-    //assign EXC_Int = ((Cause_IP[7:0] & Status_IM[7:0]) != 8'h00) & Status_IE & ~Status_EXL & ~Status_ERL & ~ID_IsFlushed;
     wire   Enabled_Interrupt = EXC_NMI | (Status_IE & ((Cause_IP[7:0] & Status_IM[7:0]) != 8'h00));
     assign EXC_Int = Enabled_Interrupt & ~Status_EXL & ~Status_ERL & ~ID_IsFlushed;
 
@@ -398,7 +397,7 @@ module CPZero(
             Cause_IP      <= 8'b0;
         end
         else begin
-            Count         <= (CP0_WriteCond & (Rd == 5'd9 ) & (Sel == 3'b000)) ? Reg_In       : ((Count == Compare) ? 32'b0 : Count + 1);
+            Count         <= (CP0_WriteCond & (Rd == 5'd9 ) & (Sel == 3'b000)) ? Reg_In       : Count + 1;
             Compare       <= (CP0_WriteCond & (Rd == 5'd11) & (Sel == 3'b000)) ? Reg_In       : Compare;
             Status_CU_0   <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[28]   : Status_CU_0;
             Status_RE     <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[25]   : Status_RE;
@@ -407,12 +406,11 @@ module CPZero(
             Status_IE     <= (CP0_WriteCond & (Rd == 5'd12) & (Sel == 3'b000)) ? Reg_In[0]    : Status_IE;
             Cause_IV      <= (CP0_WriteCond & (Rd == 5'd13) & (Sel == 3'b000)) ? Reg_In[23]   : Cause_IV;
             /* Cause_IP indicates 8 interrupts:
-               [7]   is set by the timer comparison, and cleared by reading 'Count'.
+               [7]   is set by the timer comparison (Compare == Count), and cleared by writing to Compare.
                [6:2] are set and cleared by external hardware.
                [1:0] are set and cleared by software.
              */
-            // If reading -> 0, Otherwise if 0 -> Int5.
-            Cause_IP[7]   <= ((Status_CU_0 | KernelMode) & Mfc0 & (Rd == 5'd9) & (Sel == 3'b000)) ? 1'b0 : ((Cause_IP[7] == 0) ? Int5 : Cause_IP[7]);
+            Cause_IP[7]   <= (CP0_WriteCond & (Rd == 5'd11) & (Sel == 3'b000)) ? 1'b0 : ((Int5) ? 1'b1 : Cause_IP[7]);
             Cause_IP[6:2] <= Int[4:0];
             Cause_IP[1:0] <= (CP0_WriteCond & (Rd == 5'd13) & (Sel == 3'b000)) ? Reg_In[9:8]  : Cause_IP[1:0];
         end
