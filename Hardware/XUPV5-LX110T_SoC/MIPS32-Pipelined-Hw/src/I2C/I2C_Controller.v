@@ -39,7 +39,7 @@ module I2C_Controller(
     input  [12:0] DataIn,
     output [10:0] DataOut,
     output Ack,
-    
+
     inout  i2c_scl,
     inout  i2c_sda
     );
@@ -58,7 +58,7 @@ module I2C_Controller(
     wire Cmd_Tx    = DataIn[10];
     wire Cmd_Rx    = DataIn[11];
     wire Cmd_RxN   = DataIn[12];
-    
+
 
     assign I2C_Read         = Write & Cmd_Rx;
     assign I2C_Write        = Write & Cmd_Tx;
@@ -72,8 +72,8 @@ module I2C_Controller(
     assign DataOut[9]       = I2C_FifoFull;
     assign DataOut[10]      = I2C_Nack;
     assign Ack              = I2C_Ack;
-    
-    
+
+
     // I2C Physical layer
     I2C_Phy PHY (
         .clock         (clock),

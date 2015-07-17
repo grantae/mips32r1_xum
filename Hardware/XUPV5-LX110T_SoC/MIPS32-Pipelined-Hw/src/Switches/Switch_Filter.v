@@ -12,7 +12,7 @@
  *   Verilog 2001, 4 soft tab, wide column.
  *
  * Description:
- *   A debouncer for 8 switches. 
+ *   A debouncer for 8 switches.
  */
 module Switch_Filter(
     input  clock,

@@ -24,7 +24,7 @@ module LCD(
     input  [2:0] address,
     input  [31:0] data,
     input  [3:0] writeEnable,
-    output reg ack,    
+    output reg ack,
     output [6:0] LCD
     );
 
@@ -189,14 +189,14 @@ module LCD(
     end
 
     lcd_ctrl LCD_Driver (
-        .clock    (clock), 
-        .reset    (reset), 
-        .command  (lcd_command), 
-        .write    (lcd_write), 
-        .ack      (lcd_ack), 
-        .LCD_D    (LCD[6:3]), 
-        .LCD_E    (LCD[2]), 
-        .LCD_RS   (LCD[1]), 
+        .clock    (clock),
+        .reset    (reset),
+        .command  (lcd_command),
+        .write    (lcd_write),
+        .ack      (lcd_ack),
+        .LCD_D    (LCD[6:3]),
+        .LCD_E    (LCD[2]),
+        .LCD_RS   (LCD[1]),
         .LCD_RW   (LCD[0])
     );
 

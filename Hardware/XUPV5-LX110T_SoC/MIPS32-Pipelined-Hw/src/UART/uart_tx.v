@@ -37,7 +37,7 @@ module uart_tx (
     always @(posedge clock) begin
         TxD_data_r <= (ready & TxD_start) ? TxD_data : TxD_data_r;
     end
-   
+
     always @(posedge clock) begin
         if (reset) tx_state <= IDLE;
         else begin

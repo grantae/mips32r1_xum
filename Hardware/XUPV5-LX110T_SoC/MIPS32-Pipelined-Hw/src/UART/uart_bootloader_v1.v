@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
+// Company:
 // Engineer: Grant Ayers (ayers@cs.utah.edu)
-// 
-// Create Date:    09:59:05 05/24/2010 
-// Design Name: 
-// Module Name:    uart_bootloader 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
+//
+// Create Date:    09:59:05 05/24/2010
+// Design Name:
+// Module Name:    uart_bootloader
+// Project Name:
+// Target Devices:
+// Tool versions:
 // Description:
 //       Implements the XUM bootloader protocol over a serial port (115200 8N1).
 //       The protocol is as follows:
@@ -32,11 +32,11 @@
 //          be sent back to the programmer from the FPGA, allowing the programmer
 //          to determine if all of the data was transmitted successfully.
 //
-// Dependencies: 
+// Dependencies:
 //
-// Revision: 
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module uart_bootloader(
@@ -49,27 +49,27 @@ module uart_bootloader(
    output reg [17:0] addrMem = 0, // address to instruction memory
    output reg [31:0] dataMem = 0 // 32-bit data words of instruction memory
    );
-   
+
    localparam [3:0]  HEAD_1=0, HEAD_2=1, HEAD_3=2, SIZE_1=3, SIZE_2=4, SIZE_3=5, OFST_1=6, OFST_2=7,
                      OFST_3=8, ADDRSET=9, DATA_1=10, DATA_2=11, DATA_3=12, DATA_4=13, ADDRINC=14;
-   
+
    /* UART Signals */
    reg uart_write = 0;
    reg uart_read = 0;
-      
+
    wire [7:0] uart_rx_data;
    wire [7:0] uart_tx_data = uart_rx_data;
    wire uart_rx_data_ready;
-   
+
    reg [17:0] size = 0;       // Number of 32-bit words to expect
    reg [17:0] offset = 0;     // Starting address to store words
    reg [17:0] rx_count = 0;   // Number of 32-bit words received so far
-   
+
    reg [3:0] state = HEAD_1;
-   
+
    // The CPU(s) is continuously reset while memory is being replaced.
    assign resetCPU = ((state!=HEAD_1) && (state!=HEAD_2) && (state!=HEAD_3) && (state!=SIZE_1));
-   
+
    always @(posedge clock) begin
       if (reset) begin
          state <= HEAD_1;
@@ -168,16 +168,16 @@ module uart_bootloader(
 
 
    uart_min uart (
-      .clock      (clock), 
-      .reset      (reset), 
-      .write      (uart_write), 
-      .data_in    (uart_tx_data), 
-      .read       (uart_read), 
-      .data_out   (uart_rx_data), 
-      .data_ready (uart_rx_data_ready), 
-      .RxD        (RxD), 
+      .clock      (clock),
+      .reset      (reset),
+      .write      (uart_write),
+      .data_in    (uart_tx_data),
+      .read       (uart_read),
+      .data_out   (uart_rx_data),
+      .data_ready (uart_rx_data_ready),
+      .RxD        (RxD),
       .TxD        (TxD)
    );
-   
+
 endmodule
 

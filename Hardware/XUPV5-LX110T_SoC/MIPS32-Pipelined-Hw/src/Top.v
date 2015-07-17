@@ -29,17 +29,17 @@ module Top(
     inout  i2c_sda,
     output Piezo
     );
-    
-    
+
+
     // Clock signals
     wire clock, clock2x;
     wire PLL_Locked;
-    
+
     reg reset;
     always @(posedge clock) begin
         reset <= ~reset_n | ~PLL_Locked;
     end
-    
+
     // MIPS Processor Signals
     reg  [31:0] MIPS32_DataMem_In;
     wire [31:0] MIPS32_DataMem_Out, MIPS32_InstMem_In;
@@ -51,7 +51,7 @@ module Top(
     wire        MIPS32_NMI;
     wire [7:0]  MIPS32_IP;
     wire        MIPS32_IO_WE;
-    
+
     // BRAM Memory Signals
     reg  [3:0] BRAM_WEA;
     reg  BRAM_REA;
@@ -62,7 +62,7 @@ module Top(
     wire [3:0] BRAM_WEB;
     wire [31:0] BRAM_DOUTB;
     wire BRAM_ReadyB;
-    
+
     // LCD Signals
     wire [3:0] LCD_WE;
     wire LCD_Ready;
@@ -78,7 +78,7 @@ module Top(
     wire [31:0] UART_BootData;
     wire UART_BootWriteMem_pre;
     wire [3:0] UART_BootWriteMem = (UART_BootWriteMem_pre) ? 4'hF : 4'h0;
-    
+
     // I2C Signals
     wire I2C_Ready;
     wire [10:0] I2C_DOUT;
@@ -87,7 +87,7 @@ module Top(
     // Piezo Transducer Signals
     wire Piezo_WE;
     wire Piezo_Ready;
-    
+
     // LED Signals
     wire LED_WE;
     wire LED_RE;
@@ -105,7 +105,7 @@ module Top(
     PLL_100MHz_to_33MHz_66MHz Clock_Generator (
         .CLKIN1_IN    (clock_100MHz),
         .RST_IN       (1'b0),
-        .CLKOUT0_OUT  (clock), 
+        .CLKOUT0_OUT  (clock),
         .CLKOUT1_OUT  (clock2x),
         .LOCKED_OUT   (PLL_Locked)
     );
@@ -189,17 +189,17 @@ module Top(
         .i2c_scl  (i2c_scl),
         .i2c_sda  (i2c_sda)
     );
-    
+
     // Piezo-electric Transducer
     Piezo_Driver Piezo_Driver (
-        .clock  (clock2x), 
-        .reset  (reset), 
-        .data   (MIPS32_DataMem_Out[24:0]), 
-        .Write  (Piezo_WE), 
-        .Ack    (Piezo_Ready), 
+        .clock  (clock2x),
+        .reset  (reset),
+        .data   (MIPS32_DataMem_Out[24:0]),
+        .Write  (Piezo_WE),
+        .Ack    (Piezo_Ready),
         .Piezo  (Piezo)
     );
-    
+
     // LEDs
     LED LEDs (
         .clock    (clock2x),
@@ -223,8 +223,8 @@ module Top(
         .Ack         (Switches_Ready),
         .Switch_out  (Switches_DOUT)
     );
-    
-    
+
+
     assign MIPS32_IO_WE = (MIPS32_DataMem_WE == 4'hF) ? 1 : 0;
     assign MIPS32_Interrupts[4:1] = Switches_DOUT[7:4];
     assign MIPS32_Interrupts[0]   = UART_Interrupt;
@@ -287,7 +287,7 @@ module Top(
                 end
         endcase
     end
-    
+
     // Memory
     assign BRAM_REB    = (MIPS32_DataMem_Address[29]) ? 0    : MIPS32_DataMem_Read;
     assign BRAM_WEB    = (MIPS32_DataMem_Address[29]) ? 4'h0 : MIPS32_DataMem_WE;
@@ -302,6 +302,6 @@ module Top(
     assign LED_RE      = (MIPS32_DataMem_Address[29:26] == 4'b1100) ? MIPS32_DataMem_Read : 0;
     assign Switches_WE = (MIPS32_DataMem_Address[29:26] == 4'b1101) ? MIPS32_IO_WE : 0;
     assign Switches_RE = (MIPS32_DataMem_Address[29:26] == 4'b1101) ? MIPS32_DataMem_Read : 0;
-    
+
 endmodule
 

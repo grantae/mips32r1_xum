@@ -54,7 +54,7 @@ module uart_min(
     wire [7:0] tx_fifo_data_out;
 
     assign data_ready = ~rx_fifo_empty;
-   
+
     always @(posedge clock) begin
         if (reset) begin
             tx_fifo_deQ <= 0;
@@ -73,57 +73,57 @@ module uart_min(
     end
 
     uart_clock clocks (
-        .clock          (clock), 
-        .uart_tick      (uart_tick), 
+        .clock          (clock),
+        .uart_tick      (uart_tick),
         .uart_tick_16x  (uart_tick_16x)
     );
 
     uart_tx tx (
         .clock          (clock),
         .reset          (reset),
-        .uart_tick      (uart_tick), 
-        .TxD_data       (tx_fifo_data_out), 
-        .TxD_start      (tx_start), 
-        .ready          (tx_free), 
+        .uart_tick      (uart_tick),
+        .TxD_data       (tx_fifo_data_out),
+        .TxD_start      (tx_start),
+        .ready          (tx_free),
         .TxD            (TxD)
     );
 
     uart_rx rx (
         .clock          (clock),
         .reset          (reset),
-        .RxD            (RxD), 
-        .uart_tick_16x  (uart_tick_16x), 
-        .RxD_data       (rx_data), 
+        .RxD            (RxD),
+        .uart_tick_16x  (uart_tick_16x),
+        .RxD_data       (rx_data),
         .data_ready     (rx_data_ready)
     );
-   
+
     FIFO_NoFull_Count #(
         .DATA_WIDTH     (DATA_WIDTH),
         .ADDR_WIDTH     (ADDR_WIDTH))
         tx_buffer (
-        .clock          (clock), 
-        .reset          (reset), 
-        .enQ            (write), 
-        .deQ            (tx_fifo_deQ), 
-        .data_in        (data_in), 
-        .data_out       (tx_fifo_data_out), 
+        .clock          (clock),
+        .reset          (reset),
+        .enQ            (write),
+        .deQ            (tx_fifo_deQ),
+        .data_in        (data_in),
+        .data_out       (tx_fifo_data_out),
         .empty          (tx_fifo_empty),
         .count          ()
     );
-    
+
     FIFO_NoFull_Count #(
         .DATA_WIDTH     (DATA_WIDTH),
         .ADDR_WIDTH     (ADDR_WIDTH))
         rx_buffer (
-        .clock          (clock), 
-        .reset          (reset), 
-        .enQ            (rx_data_ready), 
-        .deQ            (read), 
-        .data_in        (rx_data), 
-        .data_out       (data_out), 
+        .clock          (clock),
+        .reset          (reset),
+        .enQ            (rx_data_ready),
+        .deQ            (read),
+        .data_in        (rx_data),
+        .data_out       (data_out),
         .empty          (rx_fifo_empty),
         .count          (rx_count)
     );
-    
+
 endmodule
 

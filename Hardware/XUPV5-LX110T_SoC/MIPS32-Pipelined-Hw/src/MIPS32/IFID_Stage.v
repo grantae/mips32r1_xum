@@ -35,23 +35,23 @@ module IFID_Stage(
     output reg ID_IsBDS,
     output reg ID_IsFlushed
     );
-    
+
     /***
      The purpose of a pipeline register is to capture data from one pipeline stage
      and provide it to the next pipeline stage. This creates at least one clock cycle
      of delay, but reduces the combinatorial path length of signals which allows for
      higher clock speeds.
-     
+
      All pipeline registers update unless the forward stage is stalled. When this occurs
      or when the current stage is being flushed, the forward stage will receive data that
      is effectively a NOP and causes nothing to happen throughout the remaining pipeline
      traversal. In other words:
-     
+
      A stall masks all control signals to forward stages. A flush permanently clears
      control signals to forward stages (but not certain data for exception purposes).
     ***/
-     
-    
+
+
     /***
      The signal 'ID_IsFlushed' is needed because of interrupts. Normally, a flushed instruction
      is a NOP which will never cause an exception and thus its restart PC will never be needed
@@ -62,7 +62,7 @@ module IFID_Stage(
      pass a signal to ID indicating that its instruction was flushed. Interrupt detection is then
      masked when this signal is high, and the interrupt will trigger on the next instruction load to ID.
     ***/
-    
+
     always @(posedge clock) begin
         ID_Instruction <= (reset) ? 32'b0 : ((ID_Stall) ? ID_Instruction : ((IF_Stall | IF_Flush) ? 32'b0 : IF_Instruction));
         ID_PCAdd4      <= (reset) ? 32'b0 : ((ID_Stall) ? ID_PCAdd4                                       : IF_PCAdd4);

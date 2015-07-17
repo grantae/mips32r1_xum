@@ -36,6 +36,6 @@ module Compare(
     assign LZ  =   A[31];
     assign GEZ =  ~A[31];
     assign LEZ = ( A[31] |  ZeroA);
-    
+
 endmodule
 

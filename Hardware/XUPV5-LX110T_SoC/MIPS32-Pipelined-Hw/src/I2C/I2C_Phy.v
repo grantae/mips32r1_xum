@@ -49,17 +49,17 @@ module I2C_Phy(
     // FIFO signals
     wire Fifo_Clear, Fifo_EnQ, Fifo_DeQ;
     wire [7:0] Fifo_In, Fifo_Out;
-    
+
     wire scl, scl_tick_90;
     reg [5:0] state;
     reg [7:0] Rx_Data;
     reg sda;
     reg [7:0] Rx_Todo, Rx_Remain;
-    
+
     // The I2C bus is high-impedance instead of a driven 1.
     assign i2c_sda = (sda) ? 1'bz : 1'b0;
     assign i2c_scl = (scl | (state == IDLE)) ? 1'bz : 1'b0;
-    
+
     // Control logic : 4-way handshaking
     assign Ack = (state == BUSW);
 
@@ -67,11 +67,11 @@ module I2C_Phy(
         Rx_Todo   <= (reset) ? 8'h00 : ((state == RNSET) ? DataIn : Rx_Todo);
         Rx_Remain <= (reset) ? 8'h00 : ((state == IDLE) ? Rx_Todo : ((state == R_ENQ) ? Rx_Remain - 1 : Rx_Remain));
     end
-    
+
     always @(posedge clock) begin
         DataOut <= (reset) ? 8'h00 : ((state == DEQ) ? Fifo_Out : DataOut);
     end
-    
+
     always @(posedge clock) begin
         Nack <= (reset | (state == START)) ? 0 : ((state == NACK) ? 1 : Nack);
     end
@@ -80,7 +80,7 @@ module I2C_Phy(
     assign Fifo_DeQ   = (state == DEQ) || (state == A_DEQ) || (state == W_DEQ);
     assign Fifo_In    = (state == R_ENQ) ? Rx_Data : DataIn;
     assign Fifo_Clear = (state == CLEAR);
-    
+
     // Main state machine
     always @(posedge clock) begin
         if (reset) begin
@@ -111,7 +111,7 @@ module I2C_Phy(
                 RWBIT:  state <= (~scl & scl_tick_90) ? A_DEQ : RWBIT;
                 A_DEQ:  state <= A_ACK;
                 A_ACK:  state <= ( scl & scl_tick_90) ? ((i2c_sda) ? NACK : ((Read) ? RDATA7 : WDWAIT)) : A_ACK;
-                
+
                 // Writes
                 WDWAIT: state <= (~scl & scl_tick_90) ? WDATA7 : WDWAIT;
                 WDATA7: state <= (~scl & scl_tick_90) ? WDATA6 : WDATA7;
@@ -124,7 +124,7 @@ module I2C_Phy(
                 WDATA0: state <= (~scl & scl_tick_90) ? W_DEQ  : WDATA0;
                 W_DEQ:  state <= W_ACK;
                 W_ACK:  state <= ( scl & scl_tick_90) ? ((i2c_sda) ? NACK : ((Fifo_Empty) ? STOPW : WDWAIT)) : W_ACK;
-                
+
                 // Reads
                 RDATA7: state <= ( scl & scl_tick_90) ? RDATA6 : RDATA7;
                 RDATA6: state <= ( scl & scl_tick_90) ? RDATA5 : RDATA6;
@@ -137,16 +137,16 @@ module I2C_Phy(
                 R_ENQ:  state <= R_ACKW;
                 R_ACKW: state <= (~scl & scl_tick_90) ? R_ACK : R_ACKW;
                 R_ACK:  state <= (~scl & scl_tick_90) ? ((Rx_Remain != 8'h00) ? RDATA7 : STOP) : R_ACK;
-                
+
                 // Termination
                 NACK:   state <= STOPW;
                 STOPW:  state <= (~scl & scl_tick_90) ? STOP : STOPW;
                 STOP:   state <= ( scl & scl_tick_90) ? BUSW : STOP;
                 BUSW:   state <= (Read | Write | EnQ | DeQ) ? BUSW : IDLE;
-                default: state <= 6'bxxxxxx; 
+                default: state <= 6'bxxxxxx;
             endcase
         end
-    end    
+    end
 
     // Incoming data capture
     always @(posedge clock) begin
@@ -215,9 +215,9 @@ module I2C_Phy(
 
     // I2C Clock Generation
     I2C_Clock I2C_Clock (
-        .clock        (clock), 
-        .reset        (reset), 
-        .scl          (scl), 
+        .clock        (clock),
+        .reset        (reset),
+        .scl          (scl),
         .scl_tick_90  (scl_tick_90)
     );
 

@@ -23,8 +23,8 @@ module I2C_Clock(
     );
 
     reg [7:0] count_4x;
-    
-    
+
+
     always @(posedge clock) begin
         //count_4x <= (reset) ? 8'h00 : (scl) ? count_4x + 1 : count_4x;
         count_4x <= (reset) ? 8'h00 : count_4x + 1; // XXX SIMULATION ONLY
@@ -32,7 +32,7 @@ module I2C_Clock(
 
     // A single pulse once every 250 cycles
     wire tick_4x = (count_4x == 8'hFA);
-    
+
     reg [1:0] state;
     always @(posedge clock) begin
         if (reset) begin

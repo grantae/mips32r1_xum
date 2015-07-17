@@ -31,7 +31,7 @@
 module FIFO_NoFull_Count(clock, reset, enQ, deQ, data_in, data_out, empty, count);
     parameter DATA_WIDTH = 8;
     parameter ADDR_WIDTH = 8;
-    parameter RAM_DEPTH = 1 << ADDR_WIDTH;   
+    parameter RAM_DEPTH = 1 << ADDR_WIDTH;
     input clock;
     input reset;
     input enQ;
@@ -51,7 +51,7 @@ module FIFO_NoFull_Count(clock, reset, enQ, deQ, data_in, data_out, empty, count
 
     wire w_enQ = (full) ? 0 : enQ;   // Mask 'enQ' when the FIFO is full
     wire w_deQ = (empty) ? 0 : deQ;  // Mask 'deQ' when the FIFO is empty
-   
+
     always @(posedge clock) begin
         if (reset) begin
             enQ_ptr <= 0;
@@ -70,13 +70,13 @@ module FIFO_NoFull_Count(clock, reset, enQ, deQ, data_in, data_out, empty, count
         .ADDR_WIDTH (ADDR_WIDTH),
         .RAM_DEPTH  (RAM_DEPTH))
         ram(
-        .clock   (clock), 
-        .wEn     (w_enQ), 
-        .rAddr   (deQ_ptr), 
-        .wAddr   (enQ_ptr), 
-        .dIn     (data_in), 
+        .clock   (clock),
+        .wEn     (w_enQ),
+        .rAddr   (deQ_ptr),
+        .wAddr   (enQ_ptr),
+        .dIn     (data_in),
         .dOut    (w_data_out)
     );
-    
+
 endmodule
 

@@ -42,19 +42,19 @@ module BRAM_592KB_Wrapper(
           R/W: __|    |____
                      ____
           Ack: _____|    |____
-          
+
     */
 
 
     // Writes require one clock cycle, and reads require 2 or 3 clock cycles (registered output).
     // The following logic controls the Ready signal based on these latencies.
     reg [1:0] delay_A, delay_B;
-    
+
     always @(posedge clock) begin
         delay_A <= (reset | ~rea) ? 2'b00 : ((delay_A == 2'b10) ? delay_A : delay_A + 1);
         delay_B <= (reset | ~reb) ? 2'b00 : ((delay_B == 2'b10) ? delay_B : delay_B + 1);
     end
-    
+
     always @(posedge clock) begin
         dreadya <= (reset) ? 0 : ((wea != 4'b0000) || ((delay_A == 2'b10) && rea)) ? 1 : 0;
         dreadyb <= (reset) ? 0 : ((web != 4'b0000) || ((delay_B == 2'b10) && reb)) ? 1 : 0;

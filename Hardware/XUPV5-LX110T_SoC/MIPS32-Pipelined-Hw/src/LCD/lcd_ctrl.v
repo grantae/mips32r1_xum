@@ -35,13 +35,13 @@ module lcd_ctrl(
     localparam [4:0]    INIT_1=1, INIT_2=2, INIT_3=3, INIT_4=4, INIT_5=5, INIT_6=6, INIT_7=7, INIT_8=8,
                         CMD_WAIT=9, NOP=10, U_SETUP=11, U_ENAB=12, U_HOLD=13, UL_WAIT=14, L_SETUP=15,
                         L_ENAB=16, L_HOLD=17;
-    
+
     reg  [18:0] count;
     reg  [18:0] compare;
     reg  [4:0] state;
     wire bell;
     wire long_instr;
-    
+
     assign LCD_RW = 0;                  // There is no reason to read from the LCD screen.
     assign LCD_RS = command[8];
     assign bell = (count == compare);
@@ -52,7 +52,7 @@ module lcd_ctrl(
     always @(posedge clock) begin
         count <= (reset | bell) ? 19'b0 : count + 1;
     end
-    
+
     /* Time delays for various states */
     always @(*) begin
         case (state)
@@ -105,7 +105,7 @@ module lcd_ctrl(
             endcase
         end
     end
-    
+
     /* Combinatorial enable and data assignments */
     always @(*) begin
         case (state)
@@ -129,9 +129,9 @@ module lcd_ctrl(
             default  : begin LCD_E <= 0; LCD_D <= 4'b0000; end
         endcase
     end
-    
+
     /* Full 4-way Handshake */
-    always @(posedge clock) begin       
+    always @(posedge clock) begin
         ack <= (reset | ~write) ? 0 : (((state == L_HOLD) && (bell == 1'b1)) ? 1 : ack);
     end
 

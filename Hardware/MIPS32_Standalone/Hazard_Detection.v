@@ -56,7 +56,7 @@ module Hazard_Detection(
     output [1:0] EX_RtFwdSel,
     output M_WriteDataFwdSel
     );
-    
+
     /* Hazard and Forward Detection
      *
      * Most instructions read from one or more registers. Normally this occurs in
@@ -96,7 +96,7 @@ module Hazard_Detection(
      * however, 'MEM_MemWrite' must also be considered because it writes to a register.
      *
      */
-    
+
     wire WantRsByID, NeedRsByID, WantRtByID, NeedRtByID, WantRsByEX, NeedRsByEX, WantRtByEX, NeedRtByEX;
     assign WantRsByID = DP_Hazards[7];
     assign NeedRsByID = DP_Hazards[6];
@@ -110,12 +110,12 @@ module Hazard_Detection(
     // Trick allowed by RegDst = 0 which gives Rt. MEM_Rt is only used on
     // Data Memory write operations (stores), and RegWrite is always 0 in this case.
     wire [4:0] MEM_Rt = MEM_RtRd;
-    
+
     // Forwarding should not happen when the src/dst register is $zero
     wire EX_RtRd_NZ  = (EX_RtRd  != 5'b00000);
     wire MEM_RtRd_NZ = (MEM_RtRd != 5'b00000);
     wire WB_RtRd_NZ  = (WB_RtRd  != 5'b00000);
-    
+
     // ID Dependencies
     wire Rs_IDEX_Match  = (ID_Rs == EX_RtRd)  & EX_RtRd_NZ  & (WantRsByID | NeedRsByID) & EX_RegWrite;
     wire Rt_IDEX_Match  = (ID_Rt == EX_RtRd)  & EX_RtRd_NZ  & (WantRtByID | NeedRtByID) & EX_RegWrite;
@@ -155,21 +155,21 @@ module Hazard_Detection(
     wire EX_Fwd_4   = (Rt_EXWB_Match);
     // MEM needs data from WB : Forward
     wire MEM_Fwd_1  = (Rt_MEMWB_Match);
-    
 
-    // Stalls and Control Flow Final Assignments    
+
+    // Stalls and Control Flow Final Assignments
     assign WB_Stall = M_Stall;
     assign  M_Stall = IF_Stall | M_Stall_Controller;
     assign EX_Stall = (EX_Stall_1 | EX_Stall_2 | EX_Exception_Stall) | EX_ALU_Stall | M_Stall;
     assign ID_Stall = (ID_Stall_1 | ID_Stall_2 | ID_Stall_3 | ID_Stall_4 | ID_Exception_Stall) | EX_Stall;
     assign IF_Stall = InstMem_Read | InstMem_Ready | IF_Exception_Stall;
-    
+
     // Forwarding Control Final Assignments
     assign ID_RsFwdSel = (ID_Fwd_1) ? 2'b01 : ((ID_Fwd_3) ? 2'b10 : 2'b00);
     assign ID_RtFwdSel = (Mfc0) ? 2'b11 : ((ID_Fwd_2) ? 2'b01 : ((ID_Fwd_4) ? 2'b10 : 2'b00));
     assign EX_RsFwdSel = (EX_Link) ? 2'b11 : ((EX_Fwd_1) ? 2'b01 : ((EX_Fwd_3) ? 2'b10 : 2'b00));
     assign EX_RtFwdSel = (EX_Link)  ? 2'b11 : ((EX_Fwd_2) ? 2'b01 : ((EX_Fwd_4) ? 2'b10 : 2'b00));
     assign M_WriteDataFwdSel = MEM_Fwd_1;
-    
+
 endmodule
 

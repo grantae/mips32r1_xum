@@ -13,7 +13,7 @@
  *
  * Description:
  *   A read interface between a 4-way handshaking data bus and
- *   8 physical switches, which are debounced. 
+ *   8 physical switches, which are debounced.
  */
 module Switches(
     input  clock,

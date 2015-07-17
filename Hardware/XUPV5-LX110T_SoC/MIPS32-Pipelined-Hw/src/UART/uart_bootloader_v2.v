@@ -16,9 +16,9 @@
  *   An RS-232 compatible UART coupled with the XUM bootloader.
  *
  *   The UART is general-purpose and capable of sending and receiving at a
- *   pre-determined BAUD rate (determined by the clocking module) 
- *   with 8 data bits, 1 stop bit, and no parity. In other words it 
- *   is 8N1 with only RxD and TxD signals. It uses two 256-byte FIFO 
+ *   pre-determined BAUD rate (determined by the clocking module)
+ *   with 8 data bits, 1 stop bit, and no parity. In other words it
+ *   is 8N1 with only RxD and TxD signals. It uses two 256-byte FIFO
  *   buffers, one for receiving and the other for transmitting.
  *
  *   The XUM bootloader protocol is as follows:
@@ -46,7 +46,7 @@
  *   the data memory bus will not see any incoming data. To configure the UART for
  *   general-purpose use, software must issue a write command to the UART
  *   over the data memory bus with bit 8 set. This disables the boot protocol until
- *   the UART is reset again and allows normal use. Note however that there is 
+ *   the UART is reset again and allows normal use. Note however that there is
  *   a 5-second guard time after reset during which the boot loader is
  *   enabled regardless of any software commands to disable it. After the 5 second
  *   time has lapsed after reset, the software state determines the operating mode
@@ -69,17 +69,17 @@ module uart_bootloader(
     output TxD                  // UART Tx Signal
     );
 
-    localparam [4:0]    IDLE=0, WRITE=1, READ=2, BUSW=3, XHEAD1=4, XHEAD2=5, XHEAD3=6, XSIZE1=7, XSIZE2=8, XSIZE3=9, 
+    localparam [4:0]    IDLE=0, WRITE=1, READ=2, BUSW=3, XHEAD1=4, XHEAD2=5, XHEAD3=6, XSIZE1=7, XSIZE2=8, XSIZE3=9,
                         XOFST1=10, XOFST2=11, XOFST3=12, XDATA1=13, XDATA2=14, XDATA3=15, XDATA4=16, XADDRI=17;
 
     // UART module signals
-    wire uart_write; 
+    wire uart_write;
     reg  uart_read;
     wire uart_data_ready;
     wire [7:0] uart_data_in;
     wire [7:0] uart_data_out;
     wire [8:0] uart_rx_count;
-    
+
     reg [8:0] DataIn_r;             // Latch for incoming data to improve timing
     wire DisableBoot = DataIn_r[8]; // Software boot disable command is bit 8
     reg [28:0] BootTimedEnable;     // Hardware override enabler for boot loader after reset
@@ -122,7 +122,7 @@ module uart_bootloader(
             endcase
         end
     end
-    
+
     always @(*) begin
         case (state)
             IDLE:    uart_read <= 0;
@@ -146,20 +146,20 @@ module uart_bootloader(
             default: uart_read <= 0;
         endcase
     end
-    
+
     always @(posedge clock) begin
         DataIn_r <= ((state == IDLE) & Write) ? DataIn : DataIn_r;
     end
-    
+
     always @(posedge clock) begin
         DataOut <= (reset) ? 17'h00000 : ((state == READ) ? {uart_rx_count[8:0], uart_data_out[7:0]} : DataOut);
     end
-    
+
     always @(posedge clock) begin
         BootTimedEnable <= (reset) ? 29'h00000000 : (BootTimedEnable != 29'h1dcd6500) ? BootTimedEnable + 1 : BootTimedEnable; // 5 sec @ 100 MHz
         BootSwEnabled <= (reset) ? 1 : ((state == WRITE) ? ~DisableBoot : BootSwEnabled);
     end
-    
+
     assign BootResetCPU = (state != IDLE) && (state != WRITE) && (state != READ) && (state != BUSW) &&
                           (state != XHEAD1) && (state != XHEAD2) && (state != XHEAD3) && (state != XSIZE1);
     assign BootWriteMem = (state == XADDRI);
@@ -169,8 +169,8 @@ module uart_bootloader(
     assign Ack          = (state == BUSW);
     assign DataReady    = uart_data_ready;
     assign BootProtoEnabled = BootSwEnabled | (BootTimedEnable != 29'h1dcd6500);
-    
-    
+
+
     // XUM Boot Protocol Logic
     always @(posedge clock) begin
         BootData[31:24] <= (reset) ? 8'h00 : (((state == XDATA1) & uart_data_ready) ? uart_data_out : BootData[31:24]);
@@ -178,7 +178,7 @@ module uart_bootloader(
         BootData[15:8]  <= (reset) ? 8'h00 : (((state == XDATA3) & uart_data_ready) ? uart_data_out : BootData[15:8]);
         BootData[7:0]   <= (reset) ? 8'h00 : (((state == XDATA4) & uart_data_ready) ? uart_data_out : BootData[7:0]);
     end
-    
+
     always @(posedge clock) begin
         if (reset) begin
             BootAddr <= 18'h00000;
@@ -192,17 +192,17 @@ module uart_bootloader(
             BootAddr[7:0]   <= ((state == XOFST3) & uart_data_ready) ? uart_data_out[7:0] : BootAddr[7:0];
         end
     end
-    
+
     always @(posedge clock) begin
         rx_count <= (state == IDLE) ? 18'h00000 : ((state == XADDRI) ? rx_count + 1 : rx_count);
     end
-    
+
     always @(posedge clock) begin
         rx_size[17:16] <= (reset) ? 2'b00 : (((state == XSIZE1) & uart_data_ready) ? uart_data_out[1:0] : rx_size[17:16]);
         rx_size[15:8]  <= (reset) ? 8'h00 : (((state == XSIZE2) & uart_data_ready) ? uart_data_out[7:0] : rx_size[15:8]);
         rx_size[7:0]   <= (reset) ? 8'h00 : (((state == XSIZE3) & uart_data_ready) ? uart_data_out[7:0] : rx_size[7:0]);
     end
-    
+
     // UART Driver
     uart_min UART (
         .clock       (clock),

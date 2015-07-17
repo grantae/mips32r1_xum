@@ -32,16 +32,16 @@ module LED(
 
     reg  [13:0] data;
     reg  useInterrupts;
-    
+
     always @(posedge clock) begin
         data <= (reset) ? 14'b0 : ((Write) ? dataIn[13:0] : data);
         useInterrupts <= (reset) ? 0 : ((Write) ? dataIn[14] : useInterrupts);
     end
-    
+
     always @(posedge clock) begin
         Ack <= (reset) ? 0 : (Write | Read);
     end
-    
+
     assign LED = (useInterrupts) ? {6'b0, IP[7:0]} : data;
     assign dataOut = data;
 

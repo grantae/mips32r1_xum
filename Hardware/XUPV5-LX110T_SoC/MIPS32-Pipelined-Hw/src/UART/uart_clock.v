@@ -27,7 +27,7 @@ module uart_clock(
     // 100MHz / (2^17 / 151) == 115203.857 Hz
     //  66MHz / (2^14 / 453) == 16 * 115203.857 Hz
     //  66MHz / (2^18 / 453) == 115203.857 Hz
-    
+
 
     // 66 MHz version
     reg [14:0] accumulator = 15'h0000;
@@ -51,6 +51,6 @@ module uart_clock(
         uart_16x_count <= (uart_tick_16x) ? uart_16x_count + 1 : uart_16x_count;
     end
     assign uart_tick = (uart_tick_16x==1'b1 && (uart_16x_count == 4'b1111));
-    
+
 endmodule
 

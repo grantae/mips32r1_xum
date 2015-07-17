@@ -30,7 +30,7 @@ module Piezo_Driver(
     reg [23:0] count;
     reg [23:0] compare;
     reg enabled;
-    
+
     always @(posedge clock) begin
         count   <= (reset | (count == compare)) ? 24'h000000 : count + 1;
         compare <= (reset) ? 24'h000000 : ((Write) ? data[23:0] : compare);
@@ -38,6 +38,6 @@ module Piezo_Driver(
         Piezo   <= (reset | ~enabled) ? 0 : ((count == compare) ? ~Piezo : Piezo);
         Ack     <= (reset) ? 0 : Write;
     end
-    
+
 endmodule
 

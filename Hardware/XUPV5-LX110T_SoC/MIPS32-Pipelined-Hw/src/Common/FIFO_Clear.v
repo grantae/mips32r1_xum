@@ -29,7 +29,7 @@
 module FIFO_Clear(clock, reset, clear, enQ, deQ, data_in, data_out, empty, full);
    parameter DATA_WIDTH = 8;
    parameter ADDR_WIDTH = 8;
-   parameter RAM_DEPTH = 1 << ADDR_WIDTH;   
+   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
    input clock;
    input reset;
    input clear;
@@ -44,13 +44,13 @@ module FIFO_Clear(clock, reset, clear, enQ, deQ, data_in, data_out, empty, full)
    reg [(ADDR_WIDTH):0] count;                  // How many elements are in the FIFO (0->256)
    assign empty = (count == 0);
    assign full = (count == (1 << ADDR_WIDTH));
-   
+
    wire [(DATA_WIDTH-1):0] w_data_out;
    assign data_out = (empty) ? ((enQ & deQ) ? data_in : 0) : w_data_out;
-   
+
    wire w_enQ = (full) ? 0 : enQ;   // Mask 'enQ' when the FIFO is full
    wire w_deQ = (empty) ? 0 : deQ;  // Mask 'deQ' when the FIFO is empty
-   
+
    always @(posedge clock) begin
       if (reset | clear) begin
          enQ_ptr <= 0;
@@ -69,13 +69,13 @@ module FIFO_Clear(clock, reset, clear, enQ, deQ, data_in, data_out, empty, full)
       .ADDR_WIDTH (ADDR_WIDTH),
       .RAM_DEPTH  (RAM_DEPTH))
       RAM(
-      .clock   (clock), 
-      .wEn     (w_enQ), 
-      .rAddr   (deQ_ptr), 
-      .wAddr   (enQ_ptr), 
-      .dIn     (data_in), 
+      .clock   (clock),
+      .wEn     (w_enQ),
+      .rAddr   (deQ_ptr),
+      .wAddr   (enQ_ptr),
+      .dIn     (data_in),
       .dOut    (w_data_out)
    );
-    
+
 endmodule
 

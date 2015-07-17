@@ -27,7 +27,7 @@ module uart_rx(
     /* Synchronize incoming RxD */
     reg [1:0] RxD_sync = 2'b11; //0;
     always @(posedge clock) RxD_sync <= (uart_tick_16x) ? {RxD_sync[0], RxD} : RxD_sync;
-    
+
     /* Filter Input */
     reg [1:0] RxD_cnt = 0;
     reg RxD_bit = 1; //0;
@@ -44,12 +44,12 @@ module uart_rx(
             RxD_bit <= RxD_bit;
         end
     end
-    
+
     /* State Definitions */
     localparam [3:0] IDLE=0, BIT_0=1, BIT_1=2, BIT_2=3, BIT_3=4, BIT_4=5, BIT_5=6,
                      BIT_6=7, BIT_7=8, STOP=9;
     reg [3:0] state = IDLE;
-    
+
     /* Next-bit spacing and clock locking */
     reg clock_lock = 0;
     reg [3:0] bit_spacing = 4'b1110;   // Enable quick jumping from IDLE to BIT_0 when line was idle.
@@ -86,11 +86,11 @@ module uart_rx(
         end
         else state <= state;
     end
-    
+
     /* Shift Register to Collect Rx bits as they come */
     wire capture = (uart_tick_16x & next_bit & (state!=IDLE) & (state!=STOP));
     always @(posedge clock) RxD_data <= (capture) ? {RxD_bit, RxD_data[7:1]} : RxD_data[7:0];
     assign data_ready = (uart_tick_16x & next_bit & (state==STOP));
-    
+
 endmodule
 

@@ -25,11 +25,11 @@ module SRAM(clock, wEn, rAddr, wAddr, dIn, dOut);
     input [(ADDR_WIDTH-1):0] rAddr;
     input [(ADDR_WIDTH-1):0] wAddr;
     input [(DATA_WIDTH-1):0] dIn;
-    output [(DATA_WIDTH-1):0] dOut;   
+    output [(DATA_WIDTH-1):0] dOut;
 
     reg [(DATA_WIDTH-1):0] mem [0:(RAM_DEPTH-1)];
     assign dOut = mem[rAddr];
-   
+
     always @(posedge clock) begin
         if (wEn) mem[wAddr] <= dIn;
     end

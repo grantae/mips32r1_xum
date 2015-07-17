@@ -84,27 +84,27 @@ module CPZero(
 
     /***
      Exception Control Flow Notes
-     
+
      - Exceptions can occur in every pipeline stage. This implies that more than one exception
        can be raised in a single cycle. When this occurs, only the forward-most exception
        (i.e. MEM over EX) is handled. This and the following note guarantee program order.
-       
+
      - An exception in any pipeline stage must stall that stage until all following stages are 
        exception-free. This is because it only makes sense for exceptions to occur in program order.
-       
+
      - A pipeline stage which causes an exception must flush, i.e. prevent any commits it would
        have normally made and convert itself to a NOP for the next pipeline stage. Furthermore,
        it must flush all previous pipeline stages as well in order to retain program order.
-       
+
      - Instructions reading CP0 (mtc0) read in ID without further action. Writes to CP0 (mtc0,
        eret) also write in ID, but only after forward pipeline stages have been cleared
        of possible exceptions. This prevents many insidious bugs, such as switching to User Mode
        in ID when a legitimate memory access in kernel mode is processing in MEM, or conversely
        a switch to Kernel Mode in ID when an instruction in User Mode is attempting a kernel region
        memory access (when a kernel mode signal does not propagate through the pipeline).
-       
+
      - Commits occur in ID (CP0), EX (HILO), MEM, and WB (registers).
-     
+
      - Hardware interrupts are detected and inserted in the ID stage, but only when there are no
        other possible exceptions in the pipeline. Because they appear 'asynchronous' to the
        processor, the remaining instructions in forward stages (EX, MEM, WB) can either be
@@ -112,10 +112,10 @@ module CPZero(
        interrupt latency is higher if e.g. the MEM stage stalls on a memory access (this would
        be unavoidable on single-cycle processors). This implementation allows all forward instructions
        to complete, for a greater instruction throughput but higher interrupt latency.
-       
+
      - Software interrupts should appear synchronous in the program order, meaning that all
        instructions previous to them should complete and no instructions after them should start
-       until the interrupts has been processed. 
+       until the interrupts has been processed.
 
      Exception Name             Short Name          Pipeline Stage
        Address Error Ex         (AdEL, AdES)        MEM, IF
@@ -128,8 +128,8 @@ module CPZero(
        Interrupt                (Int)               ID
        Reset, SReset, NMI                           ID
     ***/
-    
-    
+
+
     // Exceptions Generated Internally
     wire EXC_CpU;
 
@@ -153,14 +153,14 @@ module CPZero(
 
     /***
      MIPS-32 COPROCESSOR 0 (Cp0) REGISTERS
-     
+
      These are defined in "MIPS32 Architecture for Programmers Volume III:
      The MIPS32 Privileged Resource Architecture" from MIPS Technologies, Inc.
-     
+
      Optional registers are omitted. Changes to the processor (such as adding
      an MMU/TLB, etc. must be reflected in these registers.
     */
-     
+
     // BadVAddr Register (Register 8, Select 0)
     reg [31:0] BadVAddr;
 
@@ -208,7 +208,7 @@ module CPZero(
     reg  [3:0] Cause_ExcCode30;     // Description of Exception (only lower 4 bits currently used; see above)
     wire [31:0] Cause  = {Cause_BD, 1'b0, Cause_CE, 4'b0000, Cause_IV, Cause_WP,
                                  6'b000000, Cause_IP, 1'b0, Cause_ExcCode4, Cause_ExcCode30, 2'b00};
-                        
+
     // Exception Program Counter (Register 14, Select 0)
     reg [31:0] EPC;
 
@@ -222,12 +222,12 @@ module CPZero(
     // Configuration Register (Register 16, Select 0)
     wire Config_M = 1;
     wire [14:0] Config_Impl = 15'b000_0000_0000_0000;
-    wire Config_BE = Big_Endian;    // From parameters file
+    wire Config_BE = `Big_Endian;
     wire [1:0] Config_AT = 2'b00;
     wire [2:0] Config_AR = 3'b000;
     wire [2:0] Config_MT = 3'b000;
     wire [2:0] Config_K0 = 3'b000;
-    wire [31:0] Config = {Config_M, Config_Impl, Config_BE, Config_AT, Config_AR, Config_MT, 
+    wire [31:0] Config = {Config_M, Config_Impl, Config_BE, Config_AT, Config_AR, Config_MT,
                                  4'b0000, Config_K0};
 
     // Configuration Register 1 (Register 16, Select 1)
@@ -288,7 +288,7 @@ module CPZero(
             1. A forward stage is capable of causing an exception AND
             2. A forward stage is not currently causing an exception.
         - An exception is ready to process when it is detected and not stalled in a stage.
-        
+
         Flush specifics per pipeline stage:
             MEM: Mask 'MemWrite' and 'MemRead' (for performance) after EX/M and before data memory. NOPs to M/WB.
             EX : Mask writes to HI/LO. NOPs to EX/M.
@@ -303,16 +303,16 @@ module CPZero(
     assign  IF_Exception_Detect = EXC_AdIF;
 
     /*** Exception mask conditions ***/
-    
+
     // A potential bug would occur if e.g. EX stalls, MEM has data, but MEM is not stalled and finishes
-    // going through the pipeline so forwarding would fail. This is not a problem however because 
+    // going through the pipeline so forwarding would fail. This is not a problem however because
     // EX would not need data since it would flush on an exception.
     assign   M_Exception_Mask = IF_Stall;
     assign  EX_Exception_Mask = IF_Stall | M_CanErr;
     assign  ID_Exception_Mask = IF_Stall | M_CanErr | EX_CanErr;
     assign  IF_Exception_Mask = M_CanErr | EX_CanErr | ID_CanErr | EXC_Int;
 
-    /*** 
+    /***
      Exceptions which must wait for forward stages. A stage will not stall if a forward stage has an exception.
      These stalls must be inserted as stall conditions in the hazard unit so that it will take care of chaining.
      All writes to CP0 must also wait for forward hazard conditions to clear.
@@ -330,7 +330,7 @@ module CPZero(
     assign  ID_Exception_Ready =  ~ID_Stall & ID_Exception_Detect & ~ID_Exception_Mask;
     assign  IF_Exception_Ready =  ~ID_Stall & IF_Exception_Detect & ~IF_Exception_Mask;
 
-    /*** 
+    /***
      Flushes. A flush clears a pipeline stage's control signals and prevents the stage from committing any changes.
      Data such as 'RestartPC' and the detected exception must remain.
     */
@@ -339,7 +339,7 @@ module CPZero(
     assign  ID_Exception_Flush = M_Exception_Detect | EX_Exception_Detect | ID_Exception_Detect;
     assign  IF_Exception_Flush = M_Exception_Detect | EX_Exception_Detect | ID_Exception_Detect | IF_Exception_Detect | (ERET & ~ID_Stall) | reset_r;
 
-      
+
     /*** Software reads of CP0 Registers ***/
     always @(*) begin
         if (Mfc0 & (Status_CU_0 | KernelMode)) begin
@@ -382,7 +382,7 @@ module CPZero(
             ErrorEPC      <= (CP0_WriteCond & (Rd == 5'd30) & (Sel == 3'b000)) ? Reg_In       : ErrorEPC;
         end
     end
-    
+
     /*** Cp0 Register Assignments: All other registers ***/
     always @(posedge clock) begin
         if (reset) begin
@@ -482,25 +482,25 @@ module CPZero(
     always @(*) begin
         // Following is redundant since PC has initial value now.
         if (reset) begin
-            Exc_PC_Out <= EXC_Vector_Base_Reset;
+            Exc_PC_Out <= `EXC_Vector_Base_Reset;
         end
         else if (ERET & ~ID_Stall) begin
             Exc_PC_Out <= (Status_ERL) ? ErrorEPC : EPC;
         end
         else if (EXC_General) begin
-            Exc_PC_Out <= (Status_BEV) ? (EXC_Vector_Base_Other_Boot   + EXC_Vector_Offset_General) :
-                                         (EXC_Vector_Base_Other_NoBoot + EXC_Vector_Offset_General);
+            Exc_PC_Out <= (Status_BEV) ? (`EXC_Vector_Base_Other_Boot   + `EXC_Vector_Offset_General) :
+                                         (`EXC_Vector_Base_Other_NoBoot + `EXC_Vector_Offset_General);
         end
         else if (EXC_NMI) begin
-            Exc_PC_Out <= EXC_Vector_Base_Reset;
+            Exc_PC_Out <= `EXC_Vector_Base_Reset;
         end
         else if (EXC_Int & Cause_IV) begin
-            Exc_PC_Out <= (Status_BEV) ? (EXC_Vector_Base_Other_Boot   + EXC_Vector_Offset_Special) :
-                                         (EXC_Vector_Base_Other_NoBoot + EXC_Vector_Offset_Special);
-        end        
+            Exc_PC_Out <= (Status_BEV) ? (`EXC_Vector_Base_Other_Boot   + `EXC_Vector_Offset_Special) :
+                                         (`EXC_Vector_Base_Other_NoBoot + `EXC_Vector_Offset_Special);
+        end
         else begin
-            Exc_PC_Out <= (Status_BEV) ? (EXC_Vector_Base_Other_Boot   + EXC_Vector_Offset_General) :
-                                         (EXC_Vector_Base_Other_NoBoot + EXC_Vector_Offset_General);
+            Exc_PC_Out <= (Status_BEV) ? (`EXC_Vector_Base_Other_Boot   + `EXC_Vector_Offset_General) :
+                                         (`EXC_Vector_Base_Other_NoBoot + `EXC_Vector_Offset_General);
         end
     end
 
@@ -522,6 +522,6 @@ module CPZero(
         else if (EXC_Int)  Cause_ExcCode_bits <= 4'h0;     // 00000     // OK that NMI writes this.
         else               Cause_ExcCode_bits <= 4'bxxxx;
     end
- 
+
 endmodule
 

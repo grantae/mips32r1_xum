@@ -75,19 +75,19 @@ module EXMEM_Stage(
      and provide it to the next pipeline stage. This creates at least one clock cycle
      of delay, but reduces the combinatorial path length of signals which allows for
      higher clock speeds.
-     
+
      All pipeline registers update unless the forward stage is stalled. When this occurs
      or when the current stage is being flushed, the forward stage will receive data that
      is effectively a NOP and causes nothing to happen throughout the remaining pipeline
      traversal. In other words:
-     
+
      A stall masks all control signals to forward stages. A flush permanently clears
      control signals to forward stages (but not certain data for exception purposes).
     ***/
-  
+
     // Mask of RegWrite if a Move Conditional failed.
     wire MovcRegWrite = (EX_Movn & ~EX_BZero) | (EX_Movz & EX_BZero);
-    
+
     always @(posedge clock) begin
         M_RegWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : EX_RegWrite));
         M_RegWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : ((EX_Movn | EX_Movz) ? MovcRegWrite : EX_RegWrite)));
