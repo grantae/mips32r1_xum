@@ -89,7 +89,6 @@ module EXMEM_Stage(
     wire MovcRegWrite = (EX_Movn & ~EX_BZero) | (EX_Movz & EX_BZero);
 
     always @(posedge clock) begin
-        M_RegWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : EX_RegWrite));
         M_RegWrite      <= (reset) ? 1'b0  : ((M_Stall) ? M_RegWrite      : ((EX_Stall | EX_Flush) ? 1'b0 : ((EX_Movn | EX_Movz) ? MovcRegWrite : EX_RegWrite)));
         M_MemtoReg      <= (reset) ? 1'b0  : ((M_Stall) ? M_MemtoReg                                      : EX_MemtoReg);
         M_ReverseEndian <= (reset) ? 1'b0  : ((M_Stall) ? M_ReverseEndian                                 : EX_ReverseEndian);
